@@ -5,6 +5,8 @@ const session = require("express-session");
 const cors = require("cors");
 const initializePassport = require("./config/passport");
 const passport = require("passport");
+require("dotenv").config();
+require("./config/mongo");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -12,10 +14,6 @@ const usersRouter = require("./routes/users");
 const app = express();
 
 initializePassport(passport);
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
