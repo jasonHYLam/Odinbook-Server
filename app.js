@@ -2,11 +2,15 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const initializePassport = require("./config/passport");
+const passport = require("passport");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
 const app = express();
+
+initializePassport(passport);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
