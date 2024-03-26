@@ -13,6 +13,7 @@ const PostSchema = new Schema(
     creator: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     imageURLs: [{ type: String }],
     datePosted: { type: Date, required: true },
+    likedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   opts
 );
