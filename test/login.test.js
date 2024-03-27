@@ -1,4 +1,2 @@
 // test setup
-const express = require("express");
-
-const app = express();
+const app = require("./testConfig/testApp");

@@ -20,4 +20,13 @@ async function initializeMongoServer() {
   });
 }
 
-module.exports = initializeMongoServer;
+async function dropDB() {
+  await mongoose.connection.dropDatabase();
+}
+
+async function closeMongoServer() {
+  await mongoose.disconnect();
+  mongoose.connection.close();
+}
+
+module.exports = { initializeMongoServer, dropDB, closeMongoServer };
