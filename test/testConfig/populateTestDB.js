@@ -12,6 +12,12 @@ async function createUserDoc(user) {
   await newUser.save();
 }
 
-function setUpUsers() {
-  users.map;
+function setUpUserDocs() {
+  users.map(async (user) => await createUserDoc(user));
 }
+
+async function populateTestDB() {
+  await Promise.all([setUpUserDocs]);
+}
+
+module.export = populateTestDB;
