@@ -11,9 +11,9 @@ const UserSchema = new Schema(
   {
     username: { type: String, required: true, maxLength: 30 },
     password: { type: String, required: true, minLength: 3 },
-    profilePicURL: { type: String },
-    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    profilePicURL: { type: String, default: "" },
+    following: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
+    followers: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
   },
   opts
 );
