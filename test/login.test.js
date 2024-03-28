@@ -23,6 +23,9 @@ const loginData = {
   password: users[0].password,
 };
 
+console.log("checking loginData");
+console.log(loginData);
+
 describe("login tests", () => {
   describe("signup", () => {
     test("successful sign up", async () => {
@@ -48,10 +51,10 @@ describe("login tests", () => {
       });
     });
   });
-  describe.skip("login", () => {
+  describe("login", () => {
     test("successful login (valid credentials)", async () => {
       const loginResponse = await agent.post("/auth/login").send(loginData);
-      expect(loginResponse.status).toBe(200);
+      expect(loginResponse.status).toBe(201);
     });
   });
 });

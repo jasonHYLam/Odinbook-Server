@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 function initializePassport(passport) {
   passport.use(
-    new LocalStrategy(async (username, password) => {
+    new LocalStrategy(async (username, password, done) => {
       try {
         const user = await User.findOne({ username: username });
         if (!user) return done(null, false, { message: "No user" });
