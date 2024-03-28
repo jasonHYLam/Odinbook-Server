@@ -8,6 +8,7 @@ const passport = require("passport");
 require("dotenv").config();
 require("./config/mongo");
 
+const authRouter = require("./routes/authRoutes");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
@@ -45,7 +46,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+// app.use("/", indexRouter);
+app.use("/auth", authRouter);
+// app.use("/users", usersRouter);
 
 module.exports = app;
