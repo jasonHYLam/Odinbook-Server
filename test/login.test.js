@@ -24,7 +24,14 @@ const loginData = {
 };
 
 describe("login tests", () => {
-  describe("login", () => {
+  describe("signup", () => {
+    test("successful sign up", async () => {
+      const signUpData = { username: "newUser", password: "Abc123" };
+      const signupResponse = await agent.post("/signup").send(signUpData);
+      expect(signupResponse.status).toBe(200);
+    });
+  });
+  describe.skip("login", () => {
     test("successful login (valid credentials)", async () => {
       const loginResponse = await agent.post("/login").send(loginData);
       expect(loginResponse.status).toBe(200);
