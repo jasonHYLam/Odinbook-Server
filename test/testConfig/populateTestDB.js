@@ -20,4 +20,4 @@ async function populateTestDB() {
   await Promise.all([setUpUserDocs]);
 }
 
-module.export = populateTestDB;
+module.exports = populateTestDB;
