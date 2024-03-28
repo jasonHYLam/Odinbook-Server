@@ -5,7 +5,6 @@ const passport = require("passport");
 require("dotenv").config();
 const indexRouter = require("../../routes/index");
 
-initializeMongoServer();
 initializePassport(passport);
 
 const app = express();
