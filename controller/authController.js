@@ -19,6 +19,15 @@ exports.signup = [
     .withMessage("must be at least 5 characters")
     .escape(),
 
+  body("confirmPassword")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("please reconfirm password")
+    .custom((value, { req }) => {
+      if (value === req.body.password) throw new Error("passwords must match");
+    })
+    .escape(),
+
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

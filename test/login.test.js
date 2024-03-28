@@ -56,5 +56,26 @@ describe("login tests", () => {
       const loginResponse = await agent.post("/auth/login").send(loginData);
       expect(loginResponse.status).toBe(201);
     });
+
+    describe("unsuccessful logins", () => {
+      test("non-existing username", async () => {
+        const badLoginData = { username: "badUser", password: "Abc123" };
+        const loginResponse = await agent
+          .post("/auth/login")
+          .send(badLoginData);
+        expect(loginResponse.status).toBe(401);
+      });
+
+      test("non-matching password", async () => {
+        const badLoginData = {
+          username: users[0].username,
+          password: "notRealPassword",
+        };
+        const loginResponse = await agent
+          .post("/auth/login")
+          .send(badLoginData);
+        expect(loginResponse.status).toBe(401);
+      });
+    });
   });
 });
