@@ -5,7 +5,7 @@ const he = require("he");
 
 const User = require("../models/User");
 
-const signup = [
+exports.signup = [
   body("username")
     .trim()
     .isLength({ min: 5, max: 20 })
