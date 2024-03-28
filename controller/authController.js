@@ -23,14 +23,14 @@ exports.signup = [
     .trim()
     .isLength({ min: 1 })
     .withMessage("please reconfirm password")
-    .custom((value, { req }) => {
-      if (value === req.body.password) throw new Error("passwords must match");
-    })
+    .custom((value, { req }) => value === req.body.password)
     .escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log("checking errors");
+      console.log(errors);
       return res.status(400).send({ errors: errors.array() });
     } else {
       escapedUsername = he.decode(req.body.username);

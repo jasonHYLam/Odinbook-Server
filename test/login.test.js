@@ -29,13 +29,21 @@ console.log(loginData);
 describe("login tests", () => {
   describe("signup", () => {
     test("successful sign up", async () => {
-      const signUpData = { username: "newUser", password: "Abc123" };
+      const signUpData = {
+        username: "newUser",
+        password: "Abc123",
+        confirmPassword: "Abc123",
+      };
       const signupResponse = await agent.post("/auth/signup").send(signUpData);
       expect(signupResponse.status).toBe(200);
     });
     describe("unsuccessful signups", () => {
       test("username too short", async () => {
-        const signUpData = { username: "newU", password: "Abc123" };
+        const signUpData = {
+          username: "newU",
+          password: "Abc123",
+          confirmPassword: "Abc123",
+        };
         const signupResponse = await agent
           .post("/auth/signup")
           .send(signUpData);
@@ -43,7 +51,23 @@ describe("login tests", () => {
       });
 
       test("password too short", async () => {
-        const signUpData = { username: "newUser", password: "Abc1" };
+        const signUpData = {
+          username: "newUser",
+          password: "Abc1",
+          confirmPassword: "Abc1",
+        };
+        const signupResponse = await agent
+          .post("/auth/signup")
+          .send(signUpData);
+        expect(signupResponse.status).toBe(400);
+      });
+
+      test("passwords don't match", async () => {
+        const signUpData = {
+          username: "newUser",
+          password: "Abc123",
+          confirmPassword: "Abc1234",
+        };
         const signupResponse = await agent
           .post("/auth/signup")
           .send(signUpData);
@@ -51,6 +75,7 @@ describe("login tests", () => {
       });
     });
   });
+
   describe("login", () => {
     test("successful login (valid credentials)", async () => {
       const loginResponse = await agent.post("/auth/login").send(loginData);
