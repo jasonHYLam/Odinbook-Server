@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const he = require("he");
+const passport = require("passport");
 
 const User = require("../models/User");
 
@@ -43,4 +44,12 @@ exports.signup = [
 exports.login = [
   body("username").trim().escape(),
   body("password").trim().escape(),
+
+  passport.authenticate("local"),
+
+  asyncHandler(async (req, res, next) => {
+    // may need to pass in userID
+    const { _id, username } = req.user;
+    res.status(201).send({ username, _id });
+  }),
 ];
