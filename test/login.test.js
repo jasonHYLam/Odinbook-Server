@@ -9,9 +9,6 @@ const request = require("supertest");
 const app = require("./testConfig/testApp");
 const users = require("./testData/users");
 
-console.log("checking users");
-console.log(users);
-
 let agent;
 beforeAll(async () => await initializeMongoServer());
 afterAll(async () => await closeMongoServer());

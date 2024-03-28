@@ -9,12 +9,15 @@ async function createUserDoc(user) {
   const newUser = new User(user);
   const hashedPassword = await bcrypt.hash(user.password, 10);
   newUser.password = hashedPassword;
+  await newUser.save();
 }
 
-const allTestUsers = users.map(async (user) => await createUserDoc(user));
+async function createAllUserDocs() {
+  users.map(async (user) => await createUserDoc(user));
+}
 
 async function populateTestDB() {
-  await Promise.all([User.insertMany(allTestUsers)]);
+  await Promise.all([createAllUserDocs()]);
 }
 
 module.exports = populateTestDB;
