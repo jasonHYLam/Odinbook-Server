@@ -30,6 +30,23 @@ describe("login tests", () => {
       const signupResponse = await agent.post("/auth/signup").send(signUpData);
       expect(signupResponse.status).toBe(200);
     });
+    describe("unsuccessful signups", () => {
+      test("username too short", async () => {
+        const signUpData = { username: "newU", password: "Abc123" };
+        const signupResponse = await agent
+          .post("/auth/signup")
+          .send(signUpData);
+        expect(signupResponse.status).toBe(400);
+      });
+
+      test("password too short", async () => {
+        const signUpData = { username: "newUser", password: "Abc1" };
+        const signupResponse = await agent
+          .post("/auth/signup")
+          .send(signUpData);
+        expect(signupResponse.status).toBe(400);
+      });
+    });
   });
   describe.skip("login", () => {
     test("successful login (valid credentials)", async () => {

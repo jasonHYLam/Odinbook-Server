@@ -11,6 +11,7 @@ exports.signup = [
     .isLength({ min: 5, max: 20 })
     .withMessage("must be between 5-20 characters")
     .escape(),
+
   body("password")
     .trim()
     .isLength({ min: 5 })
@@ -20,12 +21,10 @@ exports.signup = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(result);
       return res.status(400).send({ errors: errors.array() });
     } else {
       escapedUsername = he.decode(req.body.username);
       escapedPassword = he.decode(req.body.username);
-
       try {
         const hashedPassword = await bcrypt.hash(escapedPassword, 10);
         const newUser = new User({
