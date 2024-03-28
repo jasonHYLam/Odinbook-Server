@@ -39,3 +39,8 @@ exports.signup = [
     }
   }),
 ];
+
+exports.login = [
+  body("username").trim().escape(),
+  body("password").trim().escape(),
+];
