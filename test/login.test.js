@@ -23,9 +23,6 @@ const loginData = {
   password: users[0].password,
 };
 
-console.log("checking loginData");
-console.log(loginData);
-
 describe("login tests", () => {
   describe("signup", () => {
     test("successful sign up", async () => {
