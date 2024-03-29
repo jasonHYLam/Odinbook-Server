@@ -8,6 +8,7 @@ const populateTestDB = require("./testConfig/populateTestDB");
 const request = require("supertest");
 const app = require("./testConfig/testApp");
 const users = require("./testData/users");
+const posts = require("./testData/posts");
 
 let agent;
 const loginData = {
@@ -31,15 +32,30 @@ describe("user tests", () => {
       );
       expect(personalProfileResponse.status).toBe(200);
 
-      const personalProfileBody = personalProfileResponse.body;
-      console.log("checking personalProfileBody ");
-      console.log(personalProfileBody);
-      expect(personalProfileBody).toHaveProperty("id", users[0]._id.toString());
-      expect(personalProfileBody).toHaveProperty("username", users[0].username);
-      expect(personalProfileBody).toHaveProperty(
-        "profilePicURL",
-        users[0].profilePicURL
+      // const personalProfileBody = personalProfileResponse.body;
+      const { user, posts } = personalProfileResponse.body;
+      expect(user).toHaveProperty("id", users[0]._id.toString());
+      expect(user).toHaveProperty("username", users[0].username);
+      expect(user).toHaveProperty("profilePicURL", users[0].profilePicURL);
+
+      // this is not the way to use arrayContaining, find another way soon
+      // expect(posts).arrayContaining(posts[0]);
+    });
+  });
+
+  describe("changing properties", () => {
+    test("change username", async () => {
+      const newUsername = { username: "reallyNewUser" };
+      const changeUsernameResponse = await agent
+        .post("/user/change_username")
+        .send(newUsername);
+      expect(changeUsernameResponse.status).toBe(200);
+
+      const personalProfileResponse = await agent.get(
+        "/user/view_personal_profile"
       );
+      const { user } = personalProfileResponse.body;
+      expect(user).toHaveProperty("username", "reallyNewUser");
     });
   });
 });
