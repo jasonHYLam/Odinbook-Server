@@ -103,4 +103,13 @@ describe("login tests", () => {
       });
     });
   });
+
+  describe("logout", () => {
+    test("successful logout (after logout)", async () => {
+      const loginResponse = await agent.post("/auth/login").send(loginData);
+      expect(loginResponse.status).toBe(201);
+      const logoutResponse = await agent.delete("/auth/logout");
+      expect(logoutResponse.status).toBe(200);
+    });
+  });
 });
