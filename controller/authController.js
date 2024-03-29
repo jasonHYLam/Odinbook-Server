@@ -57,8 +57,15 @@ exports.login = [
   passport.authenticate("local"),
 
   asyncHandler(async (req, res, next) => {
-    // may need to pass in userID
     const { _id, username } = req.user;
     res.status(201).send({ username, _id });
   }),
 ];
+
+exports.logout = asyncHandler(async (req, res, next) => {
+  // req.logout clears cookie and req.user.
+  req.logout((err) => {
+    if (err) return next(err);
+    res.end();
+  });
+});
