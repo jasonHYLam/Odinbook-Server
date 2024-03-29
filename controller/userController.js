@@ -1,4 +1,6 @@
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
+const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
@@ -17,6 +19,30 @@ exports.view_personal_profile = asyncHandler(async (req, res, next) => {
 });
 
 exports.view_profile = asyncHandler(async (req, res, next) => {});
+
+exports.changeUsername = [
+  body("username")
+    .trim()
+    .isLength({ min: 5, max: 20 })
+    .withMessage("must be between 5-20 characters")
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    } else {
+      escapedUsername = he.decode(req.body.username);
+      const user = await User.findByIdAndUpdate(
+        req.user.id,
+        { username: escapedUsername },
+        { new: true }
+      );
+
+      res.send({ user });
+    }
+  }),
+];
 // view feed
 // view particular post
 // view followers list
