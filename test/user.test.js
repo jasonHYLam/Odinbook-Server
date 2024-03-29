@@ -22,3 +22,23 @@ beforeEach(async () => {
   await agent.post("/auth/login").send(loginData);
 });
 afterEach(async () => await dropDB());
+
+describe("user tests", () => {
+  describe("view profile", () => {
+    test("view personal profile", async () => {
+      const personalProfileResponse = await agent.get(
+        "/user/view_personal_profile"
+      );
+      expect(personalProfileResponse.status).toBe(200);
+
+      const personalProfileBody = personalProfileResponse.body;
+      expect(personalProfileBody).toHaveProperty("username", users[0].username);
+      expect(personalProfileBody).toHaveProperty("id", users[0].password);
+      expect(personalProfileBody).toHaveProperty("password", users[0].password);
+      expect(personalProfileBody).toHaveProperty(
+        "profilePicURL",
+        users[0].profilePicURL
+      );
+    });
+  });
+});

@@ -5,6 +5,7 @@ const passport = require("passport");
 require("dotenv").config();
 const indexRouter = require("../../routes/index");
 const authRouter = require("../../routes/authRoutes");
+const userRouter = require("../../routes/userRouter");
 
 initializePassport(passport);
 
@@ -29,5 +30,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 module.exports = app;
