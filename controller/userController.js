@@ -69,11 +69,13 @@ exports.changePassword = [
 ];
 
 exports.getFollowers = asyncHandler(async (req, res, next) => {
-  const followersList = await User.findById(req.user.id).populate("followers");
+  const { followers } = await User.findById(req.user.id)
+    .populate("followers", "username profilePicURL")
+    .exec();
   console.log("check followersList");
-  console.log(followersList);
+  console.log(followers);
 
-  res.status(201).send({});
+  res.status(201).send({ followers });
 });
 // view feed
 // view particular post
