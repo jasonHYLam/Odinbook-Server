@@ -57,5 +57,19 @@ describe("user tests", () => {
       const { user } = personalProfileResponse.body;
       expect(user).toHaveProperty("username", "reallyNewUser");
     });
+
+    test("change password", async () => {
+      const newPassword = { password: "reallyNewPassword" };
+      const changePasswordResponse = await agent
+        .post("/user/change_password")
+        .send(newPassword);
+      expect(changePasswordResponse.status).toBe(200);
+
+      const personalProfileResponse = await agent.get(
+        "/user/view_personal_profile"
+      );
+      const { user } = personalProfileResponse.body;
+      expect(user).toHaveProperty("password", "reallyNewPassword");
+    });
   });
 });
