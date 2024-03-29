@@ -47,7 +47,7 @@ describe("user tests", () => {
     test("change username", async () => {
       const newUsername = { username: "reallyNewUser" };
       const changeUsernameResponse = await agent
-        .post("/user/change_username")
+        .put("/user/change_username")
         .send(newUsername);
       expect(changeUsernameResponse.status).toBe(200);
 
@@ -61,7 +61,7 @@ describe("user tests", () => {
     test("change password", async () => {
       const newPassword = { password: "reallyNewPassword" };
       const changePasswordResponse = await agent
-        .post("/user/change_password")
+        .put("/user/change_password")
         .send(newPassword);
       expect(changePasswordResponse.status).toBe(200);
 
