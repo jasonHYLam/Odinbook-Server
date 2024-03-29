@@ -8,11 +8,14 @@ exports.view_personal_profile = asyncHandler(async (req, res, next) => {
   console.log("checking matchingUser");
   console.log(matchingUser);
   // mm how do i get their posts?
-  const matchingUserPosts = await Post.find({ creator: req.user.id });
-  console.log("checking matchingUser");
-  console.log(matchingUserPosts);
+  // const matchingUserPosts = await Post.find({ creator: req.user.id });
+  // console.log("checking matchingUserPosts");
+  // console.log(matchingUserPosts);
 
-  res.json(matchingUser, matchingUserPosts);
+  res.json(
+    matchingUser
+    // matchingUserPosts
+  );
 });
 
 exports.view_profile = asyncHandler(async (req, res, next) => {});

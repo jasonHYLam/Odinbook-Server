@@ -32,9 +32,10 @@ describe("user tests", () => {
       expect(personalProfileResponse.status).toBe(200);
 
       const personalProfileBody = personalProfileResponse.body;
+      console.log("checking personalProfileBody ");
+      console.log(personalProfileBody);
+      expect(personalProfileBody).toHaveProperty("id", users[0]._id.toString());
       expect(personalProfileBody).toHaveProperty("username", users[0].username);
-      expect(personalProfileBody).toHaveProperty("id", users[0].password);
-      expect(personalProfileBody).toHaveProperty("password", users[0].password);
       expect(personalProfileBody).toHaveProperty(
         "profilePicURL",
         users[0].profilePicURL
