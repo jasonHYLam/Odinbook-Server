@@ -69,3 +69,13 @@ exports.logout = asyncHandler(async (req, res, next) => {
     res.end();
   });
 });
+
+exports.isAuthenticated = (req, res, next) => {
+  if (!req.user) return res.status(401).end();
+  next();
+};
+
+exports.allowLoginOrSignup = (req, res, next) => {
+  if (req.user) return res.status(401).end();
+  next();
+};
