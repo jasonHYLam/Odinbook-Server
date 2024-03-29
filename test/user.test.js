@@ -78,9 +78,21 @@ describe("user tests", () => {
       const getFollowersResponse = await agent.get("/user/get_followers");
       expect(getFollowersResponse.status).toBe(201);
 
-      const data = getFollowersResponse.body;
+      const { followers } = getFollowersResponse.body;
       // let's test that this contains array of users
-      expect(data);
+      expect(followers).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            username: users[1].username,
+            profilePicURL: users[1].profilePicURL,
+          }),
+        ])
+      );
+    });
+
+    test("getting following list", async () => {
+      const getFollowingResponse = await agent.get("/user/get_following");
+      expect(getFollowingResponse.status).toBe(201);
     });
   });
 });
