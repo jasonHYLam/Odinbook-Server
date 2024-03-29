@@ -77,6 +77,16 @@ exports.getFollowers = asyncHandler(async (req, res, next) => {
 
   res.status(201).send({ followers });
 });
+
+exports.getFollowing = asyncHandler(async (req, res, next) => {
+  const { following } = await User.findById(req.user.id)
+    .populate("following", "username profilePicURL")
+    .exec();
+  console.log("check followingList");
+  console.log(following);
+
+  res.status(201).send({ following });
+});
 // view feed
 // view particular post
 // view followers list
