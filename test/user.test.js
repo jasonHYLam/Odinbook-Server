@@ -93,6 +93,16 @@ describe("user tests", () => {
     test("getting following list", async () => {
       const getFollowingResponse = await agent.get("/user/get_following");
       expect(getFollowingResponse.status).toBe(201);
+
+      const { following } = getFollowingResponse.body;
+      expect(following).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            username: users[2].username,
+            profilePicURL: users[2].profilePicURL,
+          }),
+        ])
+      );
     });
   });
 });

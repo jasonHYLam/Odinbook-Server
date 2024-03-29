@@ -7,6 +7,7 @@ const users = [
     password: "Abc123",
     profilePicURL: "",
     followers: [userIDs[1]],
+    following: [userIDs[2]],
   },
   {
     _id: userIDs[1],
