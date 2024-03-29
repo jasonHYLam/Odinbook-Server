@@ -134,5 +134,10 @@ describe("login tests", () => {
     });
   });
 
-  // describe("isAuthenticated");
+  describe("isAuthenticated", () => {
+    test("isAuthenticated will prevent access to logout function", async () => {
+      const logoutResponse = await agent.delete("/auth/logout");
+      expect(logoutResponse.status).toBe(401);
+    });
+  });
 });
