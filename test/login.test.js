@@ -73,6 +73,19 @@ describe("login tests", () => {
           .send(signUpData);
         expect(signupResponse.status).toBe(400);
       });
+
+      test("being logged in before attempting signup causes authentication error", async () => {
+        const signUpData = {
+          username: "newUser",
+          password: "Abc123",
+          confirmPassword: "Abc123",
+        };
+        const loginResponse = await agent.post("/auth/login").send(loginData);
+        const signupResponse = await agent
+          .post("/auth/signup")
+          .send(signUpData);
+        expect(signupResponse.status).toBe(401);
+      });
     });
   });
 
@@ -101,6 +114,14 @@ describe("login tests", () => {
           .send(badLoginData);
         expect(loginResponse.status).toBe(401);
       });
+
+      test("attempting second login after already being logged in causes authentication error", async () => {
+        const loginResponse = await agent.post("/auth/login").send(loginData);
+        const secondLoginResponse = await agent
+          .post("/auth/login")
+          .send(loginData);
+        expect(secondLoginResponse.status).toBe(401);
+      });
     });
   });
 
@@ -112,4 +133,6 @@ describe("login tests", () => {
       expect(logoutResponse.status).toBe(200);
     });
   });
+
+  // describe("isAuthenticated");
 });
