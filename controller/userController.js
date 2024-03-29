@@ -73,7 +73,7 @@ exports.getFollowers = asyncHandler(async (req, res, next) => {
   console.log("check followersList");
   console.log(followersList);
 
-  res.send({});
+  res.status(201).send({});
 });
 // view feed
 // view particular post

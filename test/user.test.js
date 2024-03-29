@@ -75,7 +75,7 @@ describe("user tests", () => {
 
   describe("followers list", () => {
     test("getting followers list", async () => {
-      const getFollowersResponse = await agent.get("/users/followers");
+      const getFollowersResponse = await agent.get("/users/get_followers");
       expect(getFollowersResponse.status).toBe(201);
 
       const data = getFollowersResponse.body;
