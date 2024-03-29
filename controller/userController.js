@@ -43,6 +43,30 @@ exports.changeUsername = [
     }
   }),
 ];
+
+exports.changePassword = [
+  body("username")
+    .trim()
+    .isLength({ min: 5 })
+    .withMessage("must be at least 5 characters")
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    } else {
+      escapedPassword = he.decode(req.body.password);
+      const user = await User.findByIdAndUpdate(
+        req.user.id,
+        { password: escapedPassword },
+        { new: true }
+      );
+
+      res.send({ user });
+    }
+  }),
+];
 // view feed
 // view particular post
 // view followers list
