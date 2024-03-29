@@ -23,7 +23,7 @@ const loginData = {
   password: users[0].password,
 };
 
-describe("login tests", () => {
+describe("auth tests", () => {
   describe("signup", () => {
     test("successful sign up", async () => {
       const signUpData = {
