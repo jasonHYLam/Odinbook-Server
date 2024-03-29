@@ -72,4 +72,15 @@ describe("user tests", () => {
       expect(user).toHaveProperty("password", "reallyNewPassword");
     });
   });
+
+  describe("followers list", () => {
+    test("getting followers list", async () => {
+      const getFollowersResponse = await agent.get("/users/followers");
+      expect(getFollowersResponse.status).toBe(201);
+
+      const data = getFollowersResponse.body;
+      // let's test that this contains array of users
+      expect(data);
+    });
+  });
 });

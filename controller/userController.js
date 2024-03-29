@@ -45,7 +45,7 @@ exports.changeUsername = [
 ];
 
 exports.changePassword = [
-  body("username")
+  body("password")
     .trim()
     .isLength({ min: 5 })
     .withMessage("must be at least 5 characters")
@@ -67,6 +67,14 @@ exports.changePassword = [
     }
   }),
 ];
+
+exports.getFollowers = asyncHandler(async (req, res, next) => {
+  const followersList = await User.findById(req.user.id).populate("followers");
+  console.log("check followersList");
+  console.log(followersList);
+
+  res.send({});
+});
 // view feed
 // view particular post
 // view followers list

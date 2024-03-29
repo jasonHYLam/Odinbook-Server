@@ -8,7 +8,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/view_personal_profile", userController.view_personal_profile);
-router.post("/change_username", userController.changeUsername);
-router.post("/change_password", userController.changePassword);
+router.put("/change_username", userController.changeUsername);
+router.put("/change_password", userController.changePassword);
 
 module.exports = router;
