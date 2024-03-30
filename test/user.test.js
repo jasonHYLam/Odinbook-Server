@@ -9,6 +9,7 @@ const request = require("supertest");
 const app = require("./testConfig/testApp");
 const users = require("./testData/users");
 const posts = require("./testData/posts");
+const { userIDs } = require("./testData/ids");
 
 let agent;
 const loginData = {
@@ -104,5 +105,17 @@ describe("user tests", () => {
         ])
       );
     });
+
+    test("follow a user", async () => {
+      const userID = userIDs[3].id;
+      const followUserResponse = await agent.post(`/user/${userID}/follow`);
+      expect(followUserResponse.status).toBe(201);
+    });
+
+    // unfollow
+    // trying to follow someone who is already followed results in error
+    // following someone increases their followers
+    // cannot unfollow someone who is not being followed
+    // cannot follow own account
   });
 });

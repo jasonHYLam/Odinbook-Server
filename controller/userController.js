@@ -92,6 +92,27 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
 // view followers list
 // view folllowing list
 // follow account
+exports.followUser = asyncHandler(async (req, res, next) => {
+  const { userID } = req.params;
+  // update own following list
+  const loggedInUser = await User.findByIdAndUpdate(
+    req.user.id,
+    { $push: { following: userID } },
+    { new: true }
+  );
+  // update follower's followers list
+  const userFollowing = await User.findByIdAndUpdate(
+    userID,
+    { $push: { followers: req.user.id } },
+    { new: true }
+  );
+
+  console.log("checking loggedInUser");
+  console.log(loggedInUser);
+  console.log("checking userFollowing");
+  console.log(userFollowing);
+  res.status(201).send({ loggedInUser, userFollowing });
+});
 // remove follower
 // remove following
 // change username, password, profilePic
