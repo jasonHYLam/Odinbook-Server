@@ -12,5 +12,6 @@ router.put("/change_username", userController.changeUsername);
 router.put("/change_password", userController.changePassword);
 router.get("/get_followers", userController.getFollowers);
 router.get("/get_following", userController.getFollowing);
+router.post("/follow_user", userController.followUser);
 
 module.exports = router;
