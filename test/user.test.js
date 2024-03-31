@@ -107,9 +107,20 @@ describe("user tests", () => {
     });
 
     test("follow a user", async () => {
-      const userID = userIDs[3].id;
+      const userID = userIDs[3];
       const followUserResponse = await agent.post(`/user/${userID}/follow`);
       expect(followUserResponse.status).toBe(201);
+
+      const { loggedInUser, userFollowing } = followUserResponse.body;
+      const loggedInUserFollowing = loggedInUser.following;
+      const userFollowingFollowers = userFollowing.followers;
+
+      expect(loggedInUserFollowing).toEqual(
+        expect.arrayContaining([userIDs[3]])
+      );
+      expect(userFollowingFollowers).toEqual(
+        expect.arrayContaining([userIDs[0]])
+      );
     });
 
     // unfollow

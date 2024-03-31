@@ -93,7 +93,11 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
 // view folllowing list
 // follow account
 exports.followUser = asyncHandler(async (req, res, next) => {
+  console.log("check call");
+
   const { userID } = req.params;
+  console.log("check userID");
+  console.log(userID);
   // update own following list
   const loggedInUser = await User.findByIdAndUpdate(
     req.user.id,
@@ -107,10 +111,6 @@ exports.followUser = asyncHandler(async (req, res, next) => {
     { new: true }
   );
 
-  console.log("checking loggedInUser");
-  console.log(loggedInUser);
-  console.log("checking userFollowing");
-  console.log(userFollowing);
   res.status(201).send({ loggedInUser, userFollowing });
 });
 // remove follower
