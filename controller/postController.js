@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator");
 const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
