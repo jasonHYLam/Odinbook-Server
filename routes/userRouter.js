@@ -13,5 +13,6 @@ router.put("/change_password", userController.changePassword);
 router.get("/get_followers", userController.getFollowers);
 router.get("/get_following", userController.getFollowing);
 router.post("/:userID/follow", userController.followUser);
+router.post("/:userID/unfollow", userController.unfollowUser);
 
 module.exports = router;
