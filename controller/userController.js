@@ -6,19 +6,19 @@ const Post = require("../models/Post");
 
 // view profile
 exports.view_personal_profile = asyncHandler(async (req, res, next) => {
-  console.log("checking the call of the night");
   const user = await User.findById(req.user.id).exec();
-  console.log("checking matchingUser");
-  console.log(user);
-  // mm how do i get their posts?
   const posts = await Post.find({ creator: req.user.id }).exec();
-  console.log("checking matchingUserPosts");
-  console.log(posts);
-
-  res.json({ user, posts });
+  const isLoggedInUser = true;
+  res.json({ user, posts, isLoggedInUser });
 });
 
-exports.view_profile = asyncHandler(async (req, res, next) => {});
+exports.view_profile = asyncHandler(async (req, res, next) => {
+  const { userID } = req.params;
+  const user = await User.findById(userID, "username profilePicURL").exec();
+  const isLoggedInUser = false;
+
+  res.json({ user, isLoggedInUser });
+});
 
 exports.changeUsername = [
   body("username")
@@ -139,8 +139,3 @@ exports.unfollowUser = asyncHandler(async (req, res, next) => {
 
   res.status(201).send({ loggedInUser, userUnfollowed });
 });
-
-// remove following
-// change username, password, profilePic
-//
-// exports.
