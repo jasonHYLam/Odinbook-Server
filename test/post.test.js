@@ -30,5 +30,9 @@ describe("post tests", () => {
     const post_0_ID = postIDs[0];
     const getPostResponse = await agent.get(`/post/${post_0_ID}`);
     expect(getPostResponse.status).toBe(201);
+
+    const { post, comments } = getPostResponse.body;
+    // expect post to have text, a creator
+    // expect comments to have text and an author
   });
 });
