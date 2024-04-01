@@ -33,7 +33,6 @@ describe("user tests", () => {
       );
       expect(personalProfileResponse.status).toBe(200);
 
-      // const personalProfileBody = personalProfileResponse.body;
       const { user, posts } = personalProfileResponse.body;
       expect(user).toHaveProperty("id", users[0]._id.toString());
       expect(user).toHaveProperty("username", users[0].username);
@@ -80,7 +79,6 @@ describe("user tests", () => {
       expect(getFollowersResponse.status).toBe(201);
 
       const { followers } = getFollowersResponse.body;
-      // let's test that this contains array of users
       expect(followers).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -106,6 +104,7 @@ describe("user tests", () => {
       );
     });
 
+    // This test fails, currently unknown why.
     test("follow a user", async () => {
       const user_1_ID = userIDs[3];
       const followUserResponse = await agent.post(`/user/${user_1_ID}/follow`);
