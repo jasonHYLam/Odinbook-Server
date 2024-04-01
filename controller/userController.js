@@ -94,6 +94,12 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
 // follow account
 exports.followUser = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
+
+  // check that user is not already followed. If so, send error.
+  const { following } = await User.findById(req.user.id);
+  if (following.includes(userID)) {
+    return res.status(400).end();
+  }
   // update own following list
   const loggedInUser = await User.findByIdAndUpdate(
     req.user.id,
