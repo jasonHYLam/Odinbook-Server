@@ -9,6 +9,8 @@ const app = require("./testConfig/testApp");
 const users = require("./testData/users");
 const posts = require("./testData/posts");
 
+const { postIDs } = require("./testData/ids");
+
 let agent;
 const loginData = {
   username: users[0].username,
@@ -22,3 +24,11 @@ beforeEach(async () => {
   await agent.post("/auth/login").send(loginData);
 });
 afterEach(async () => await dropDB());
+
+describe("post tests", () => {
+  test("view individual post, which contains comments", async () => {
+    const post_0_ID = postIDs[0];
+    const getPostResponse = await agent.get(`/post/${post_0_ID}`);
+    expect(getPostResponse.status).toBe(201);
+  });
+});
