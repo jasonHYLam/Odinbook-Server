@@ -132,10 +132,6 @@ describe("user tests", () => {
       expect(unfollowUserResponse.status).toBe(201);
       // test that the corresponding user objects lists have removed objects
       const { loggedInUser, userUnfollowed } = unfollowUserResponse.body;
-      console.log("check loggedInUser");
-      console.log(loggedInUser);
-      console.log("check userUnfollowed");
-      console.log(userUnfollowed);
       const loggedInUserFollowing = loggedInUser.following;
       const userUnfollowedFollowers = userUnfollowed.followers;
 
@@ -148,6 +144,13 @@ describe("user tests", () => {
     });
 
     // trying to follow someone who is already followed results in error
+    test("trying to follow someone who is already followed results in an error", async () => {
+      const user_2_ID = userIDs[2];
+      const unfollowUserResponse = await agent.post(
+        `/user/${user_2_ID}/follow`
+      );
+      expect(unfollowUserResponse.status).toBe(400);
+    });
     // following someone increases their followers
     // cannot unfollow someone who is not being followed
     // cannot follow own account
