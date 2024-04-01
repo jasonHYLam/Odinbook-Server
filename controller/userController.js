@@ -93,11 +93,7 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
 // view folllowing list
 // follow account
 exports.followUser = asyncHandler(async (req, res, next) => {
-  console.log("check call");
-
   const { userID } = req.params;
-  console.log("check userID");
-  console.log(userID);
   // update own following list
   const loggedInUser = await User.findByIdAndUpdate(
     req.user.id,
@@ -113,7 +109,26 @@ exports.followUser = asyncHandler(async (req, res, next) => {
 
   res.status(201).send({ loggedInUser, userFollowing });
 });
-// remove follower
+
+exports.unfollowUser = asyncHandler(async (req, res, next) => {
+  const { userID } = req.params;
+
+  const loggedInUser = await User.findByIdAndUpdate(
+    req.user.id,
+    // try and remove... maybe this is a sort. or maybe there's another mongoDB method
+    { $pull: { following: userID } },
+    { new: true }
+  );
+
+  const userFollowing = await User.findByIdAndUpdate(
+    userID,
+    { $pull: { followers: req.user.id } },
+    { new: true }
+  );
+
+  res.status(201).send({ loggedInUser, userFollowing });
+});
+
 // remove following
 // change username, password, profilePic
 //

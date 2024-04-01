@@ -127,7 +127,7 @@ describe("user tests", () => {
     test("unfollow a user", async () => {
       const user_2_ID = userIDs[2];
       const unfollowUserResponse = await agent.post(
-        `/user/${user_1_ID}/follow`
+        `/user/${user_2_ID}/unfollow`
       );
       expect(unfollowUserResponse.status).toBe(200);
       // test that the corresponding user objects lists have removed objects
