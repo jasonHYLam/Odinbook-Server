@@ -82,8 +82,8 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
   const { following } = await User.findById(req.user.id)
     .populate("following", "username profilePicURL")
     .exec();
-  console.log("check followingList");
-  console.log(following);
+  // console.log("check followingList");
+  // console.log(following);
 
   res.status(201).send({ following });
 });
@@ -120,13 +120,13 @@ exports.unfollowUser = asyncHandler(async (req, res, next) => {
     { new: true }
   );
 
-  const userFollowing = await User.findByIdAndUpdate(
+  const userUnfollowed = await User.findByIdAndUpdate(
     userID,
     { $pull: { followers: req.user.id } },
     { new: true }
   );
 
-  res.status(201).send({ loggedInUser, userFollowing });
+  res.status(201).send({ loggedInUser, userUnfollowed });
 });
 
 // remove following

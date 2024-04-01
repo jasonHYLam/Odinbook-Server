@@ -129,11 +129,16 @@ describe("user tests", () => {
       const unfollowUserResponse = await agent.post(
         `/user/${user_2_ID}/unfollow`
       );
-      expect(unfollowUserResponse.status).toBe(200);
+      expect(unfollowUserResponse.status).toBe(201);
       // test that the corresponding user objects lists have removed objects
       const { loggedInUser, userUnfollowed } = unfollowUserResponse.body;
+      console.log("check loggedInUser");
+      console.log(loggedInUser);
+      console.log("check userUnfollowed");
+      console.log(userUnfollowed);
       const loggedInUserFollowing = loggedInUser.following;
       const userUnfollowedFollowers = userUnfollowed.followers;
+
       expect(loggedInUserFollowing).toEqual(
         expect.not.arrayContaining([userIDs[3]])
       );
