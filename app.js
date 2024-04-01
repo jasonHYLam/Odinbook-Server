@@ -11,6 +11,7 @@ require("./config/mongo");
 const authRouter = require("./routes/authRoutes");
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/userRouter");
+const postRouter = require("./routes/postRouter");
 
 const app = express();
 
@@ -49,5 +50,6 @@ app.use(passport.session());
 // app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/post", postRouter);
 
 module.exports = app;
