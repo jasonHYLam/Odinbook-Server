@@ -8,9 +8,12 @@ const Comment = require("../models/Comment");
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
   const post = await Post.findById(postID)
-    .populate("creator")
-    .populate("likedBy");
-  const comments = await Comment.find({ post: postID }).populate("author");
+    .populate("creator", "username profilePicURL")
+    .populate("likedBy", "username profilePicURL");
+  const comments = await Comment.find({ post: postID }).populate(
+    "author",
+    "username profilePicURL"
+  );
 
   res.status(201).send({ post, comments });
 });
