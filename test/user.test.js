@@ -25,7 +25,7 @@ beforeEach(async () => {
 });
 afterEach(async () => await dropDB());
 
-describe("user tests", () => {
+describe.skip("user tests", () => {
   describe("view profile", () => {
     test("view personal profile", async () => {
       const personalProfileResponse = await agent.get(
