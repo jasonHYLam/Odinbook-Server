@@ -119,6 +119,11 @@ exports.followUser = asyncHandler(async (req, res, next) => {
 exports.unfollowUser = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
 
+  const { following } = await User.findById(req.user.id);
+  if (!following.includes(userID)) {
+    return res.status(400).end();
+  }
+
   const loggedInUser = await User.findByIdAndUpdate(
     req.user.id,
     // try and remove... maybe this is a sort. or maybe there's another mongoDB method

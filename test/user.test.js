@@ -143,7 +143,6 @@ describe("user tests", () => {
       );
     });
 
-    // trying to follow someone who is already followed results in error
     test("trying to follow someone who is already followed results in an error", async () => {
       const user_2_ID = userIDs[2];
       const unfollowUserResponse = await agent.post(
@@ -151,8 +150,13 @@ describe("user tests", () => {
       );
       expect(unfollowUserResponse.status).toBe(400);
     });
-    // following someone increases their followers
-    // cannot unfollow someone who is not being followed
+    test("trying to unfollow someone who is not already followed results in an error", async () => {
+      const user_3_ID = userIDs[3];
+      const unfollowUserResponse = await agent.post(
+        `/user/${user_3_ID}/unfollow`
+      );
+      expect(unfollowUserResponse.status).toBe(400);
+    });
     // cannot follow own account
   });
 });

@@ -7,13 +7,14 @@ const users = [
     password: "Abc123",
     profilePicURL: "",
     followers: [userIDs[1]],
-    following: [userIDs[2]],
+    following: [userIDs[(1, 2)]],
   },
   {
     _id: userIDs[1],
     username: "User1",
     password: "Abc123",
     profilePicURL: "",
+    followers: [userIDs[0]],
     following: [userIDs[0]],
   },
   {
@@ -21,6 +22,7 @@ const users = [
     username: "User2",
     password: "Abc123",
     profilePicURL: "",
+    followers: [userIDs[0]],
     following: [userIDs[3]],
   },
   {
