@@ -36,7 +36,7 @@ describe("post tests", () => {
     const { post, comments } = getPostResponse.body;
 
     // expect post to have text, a creator
-    expect(post.text).toBe("Test post yup yup");
+    expect(post.text).toBe(posts[0].text);
     expect(post.creator).toBe(userIDs[0].toString());
     expect(post.likedBy).toEqual([
       userIDs[1].toString(),
@@ -62,5 +62,19 @@ describe("post tests", () => {
   test("view all posts of user's feed, earliest first", async () => {
     const getAllPostsResponse = await agent.get(`/post/all_posts`);
     expect(getAllPostsResponse.status).toBe(201);
+    const { allPosts } = getAllPostsResponse.body;
+    expect(allPosts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          text: posts[2].text,
+        }),
+        expect.objectContaining({
+          text: posts[1].text,
+        }),
+        expect.objectContaining({
+          text: posts[0].text,
+        }),
+      ])
+    );
   });
 });
