@@ -32,7 +32,13 @@ describe("post tests", () => {
     expect(getPostResponse.status).toBe(201);
 
     const { post, comments } = getPostResponse.body;
+
+    // console.log("checking post");
+    // console.log(post);
     // expect post to have text, a creator
+    expect(post).toEqual(
+      expect.objectContaining({ text: "Test post yup yup" })
+    );
     // expect comments to have text and an author
   });
 });
