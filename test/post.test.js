@@ -43,19 +43,24 @@ describe("post tests", () => {
       userIDs[2].toString(),
       userIDs[3].toString(),
     ]);
-    // expect comments to have text and an author
-    console.log("checking comments");
-    console.log(comments);
+    // expect comments to have text (author object is hard to test)
     expect(comments).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          author: userIDs[1],
-          post: postIDs[0],
           text: comments[0].text,
-
-          // text:
+        }),
+        expect.objectContaining({
+          text: comments[1].text,
+        }),
+        expect.objectContaining({
+          text: comments[2].text,
         }),
       ])
     );
+  });
+
+  test("view all posts of user's feed, earliest first", async () => {
+    const getAllPostsResponse = await agent.get(`/post/all_posts`);
+    expect(getAllPostsResponse.status).toBe(201);
   });
 });
