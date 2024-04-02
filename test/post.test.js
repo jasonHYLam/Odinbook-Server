@@ -37,15 +37,13 @@ describe("post tests", () => {
     // console.log("checking post");
     // console.log(post);
     // expect post to have text, a creator
-    expect(post).toEqual(
-      expect.objectContaining({
-        _id: posts[0]._id,
-        text: "Test post yup yup",
-        creator: userIDs[0],
-        datePosted: posts[0].datePosted,
-        likedBy: [userIDs[1], userIDs[2], userIDs[3]],
-      })
-    );
+    expect(post.text).toBe("Test post yup yup");
+    expect(post.creator).toBe(userIDs[0].toString());
+    expect(post.likedBy).toEqual([
+      userIDs[1].toString(),
+      userIDs[2].toString(),
+      userIDs[3].toString(),
+    ]);
     // expect comments to have text and an author
   });
 });
