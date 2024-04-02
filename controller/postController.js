@@ -7,11 +7,6 @@ const Comment = require("../models/Comment");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
-  console.log("checking postID");
-  console.log(postID);
-  const posts = await Post.find().exec();
-  console.log("checking posts");
-  console.log(posts);
 
   const post = await Post.findById(postID).exec();
   // .populate("creator", "username profilePicURL")
@@ -21,13 +16,20 @@ exports.getPost = asyncHandler(async (req, res, next) => {
     "username profilePicURL"
   );
 
-  console.log("checking post");
-  console.log(post);
-
   res.status(201).send({ post, comments });
 });
 
 exports.getAllPosts = asyncHandler(async (req, res, next) => {
+  const { following } = await User.findById(req.user.id).exec();
+
+  console.log("checking following");
+  console.log(following);
+
+  const allPosts = await Post.find({ creator: { $in: following } })
+    .sort({ datePosted: -1 })
+    .exec();
+  console.log("checking allPosts");
+  console.log(allPosts);
   res.status(201).send({});
 });
 
