@@ -19,13 +19,13 @@ async function createAllUserDocs() {
 }
 
 const allPosts = posts.map((post) => new Post(post));
-// const allComments = comments.map((comment) => new Comment(comment));
+const allComments = comments.map((comment) => new Comment(comment));
 
 async function populateTestDB() {
   await Promise.all([
     createAllUserDocs(),
     Post.insertMany(allPosts),
-    // Comment.insertMany(allComments),
+    Comment.insertMany(allComments),
   ]);
 }
 
