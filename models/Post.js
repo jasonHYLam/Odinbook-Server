@@ -19,4 +19,8 @@ const PostSchema = new Schema(
   opts
 );
 
+PostSchema.virtual("likesCount").get(function () {
+  return this.likedBy.length;
+});
+
 module.exports = mongoose.model("Post", PostSchema);
