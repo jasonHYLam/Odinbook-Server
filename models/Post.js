@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const opts = {
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
+  versionKey: false,
 };
 
 const Schema = mongoose.Schema;

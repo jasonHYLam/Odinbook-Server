@@ -10,6 +10,7 @@ const users = require("./testData/users");
 const posts = require("./testData/posts");
 
 const { postIDs } = require("./testData/ids");
+const { userIDs } = require("./testData/ids");
 
 let agent;
 const loginData = {
@@ -37,7 +38,13 @@ describe("post tests", () => {
     // console.log(post);
     // expect post to have text, a creator
     expect(post).toEqual(
-      expect.objectContaining({ text: "Test post yup yup" })
+      expect.objectContaining({
+        _id: posts[0]._id,
+        text: "Test post yup yup",
+        creator: userIDs[0],
+        datePosted: posts[0].datePosted,
+        likedBy: [userIDs[1], userIDs[2], userIDs[3]],
+      })
     );
     // expect comments to have text and an author
   });
