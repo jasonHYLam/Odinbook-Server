@@ -8,6 +8,7 @@ const request = require("supertest");
 const app = require("./testConfig/testApp");
 const users = require("./testData/users");
 const posts = require("./testData/posts");
+const comments = require("./testData/comments");
 
 const { postIDs } = require("./testData/ids");
 const { userIDs } = require("./testData/ids");
@@ -34,8 +35,6 @@ describe("post tests", () => {
 
     const { post, comments } = getPostResponse.body;
 
-    // console.log("checking post");
-    // console.log(post);
     // expect post to have text, a creator
     expect(post.text).toBe("Test post yup yup");
     expect(post.creator).toBe(userIDs[0].toString());
@@ -45,5 +44,18 @@ describe("post tests", () => {
       userIDs[3].toString(),
     ]);
     // expect comments to have text and an author
+    console.log("checking comments");
+    console.log(comments);
+    expect(comments).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          author: userIDs[1],
+          post: postIDs[0],
+          text: comments[0].text,
+
+          // text:
+        }),
+      ])
+    );
   });
 });
