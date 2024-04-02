@@ -27,7 +27,9 @@ exports.getPost = asyncHandler(async (req, res, next) => {
   res.status(201).send({ post, comments });
 });
 
-exports.view_all_posts = asyncHandler(async (req, res, next) => {});
+exports.view_all_posts = asyncHandler(async (req, res, next) => {
+  res.status(201).send({});
+});
 
 // delete post
 // create post
