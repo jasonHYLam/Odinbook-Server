@@ -50,7 +50,7 @@ exports.createPost = [
     });
     await newPost.save();
 
-    res.status(201).send(newPost);
+    res.status(201).send({ newPost });
   }),
 ];
 

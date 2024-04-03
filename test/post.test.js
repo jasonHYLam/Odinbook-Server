@@ -91,8 +91,9 @@ describe("post tests", () => {
     test("sucessfully create post", async () => {
       const createPostResponse = await agent
         .post("/post/create_post")
-        .send("4th post!");
+        .send({ text: "4th post!" });
       expect(createPostResponse.status).toBe(201);
+
       const { newPost } = createPostResponse.body;
       expect(newPost).toEqual(
         expect.objectContaining({
