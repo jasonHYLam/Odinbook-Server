@@ -67,12 +67,11 @@ describe("post tests", () => {
       expect.arrayContaining([
         expect.objectContaining({
           text: posts[2].text,
+          likesCount: 3,
         }),
         expect.objectContaining({
           text: posts[1].text,
-        }),
-        expect.objectContaining({
-          text: posts[0].text,
+          likesCount: 3,
         }),
       ])
     );

@@ -22,15 +22,13 @@ exports.getPost = asyncHandler(async (req, res, next) => {
 exports.getAllPosts = asyncHandler(async (req, res, next) => {
   const { following } = await User.findById(req.user.id).exec();
 
-  console.log("checking following");
-  console.log(following);
-
   const allPosts = await Post.find({ creator: { $in: following } })
+    .populate("creator")
     .sort({ datePosted: -1 })
     .exec();
   console.log("checking allPosts");
   console.log(allPosts);
-  res.status(201).send({});
+  res.status(201).send({ allPosts });
 });
 
 // delete post
