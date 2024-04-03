@@ -55,3 +55,20 @@ exports.createPost = [
 ];
 
 // edit post
+exports.editPost = [
+  body("text").trim().isLength({ min: 0, max: 500 }).escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send(errors);
+    }
+    const escapedText = he.decode(req.body.text);
+    const { postID } = req.params;
+    const editedPost = await Post.findByIdAndUpdate(
+      postID,
+      { text: escapedText },
+      { new: true }
+    );
+    res.status(201).send({ editedPost });
+  }),
+];

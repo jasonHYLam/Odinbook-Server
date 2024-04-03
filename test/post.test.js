@@ -102,4 +102,18 @@ describe("post tests", () => {
       );
     });
   });
+
+  describe("editing post", () => {
+    test("successfully edit post", async () => {
+      const editPostResponse = await agent
+        .put(`/post/${postIDs[0]}/edit`)
+        .send({ text: "4th post, with an edit!" });
+
+      expect(editPostResponse.status).toBe(201);
+      const { editedPost } = editPostResponse.body;
+      expect(editedPost).toEqual(
+        expect.objectContaining({ text: "4th post, with an edit!" })
+      );
+    });
+  });
 });
