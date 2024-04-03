@@ -63,17 +63,42 @@ describe("post tests", () => {
     const getAllPostsResponse = await agent.get(`/post/all_posts`);
     expect(getAllPostsResponse.status).toBe(201);
     const { allPosts } = getAllPostsResponse.body;
-    expect(allPosts).toEqual(
-      expect.arrayContaining([
+
+    // Correct order. Do not use arrayContaining() as it ignores order.
+    expect(allPosts).toEqual([
+      expect.objectContaining({
+        text: posts[2].text,
+        likesCount: 3,
+      }),
+      expect.objectContaining({
+        text: posts[1].text,
+        likesCount: 3,
+      }),
+    ]);
+
+    // Incorrect order
+    expect(allPosts).not.toEqual([
+      expect.objectContaining({
+        text: posts[1].text,
+      }),
+      expect.objectContaining({
+        text: posts[2].text,
+      }),
+    ]);
+  });
+
+  describe("creating post", () => {
+    test("sucessfully create post", async () => {
+      const createPostResponse = await agent
+        .post("/post/create_post")
+        .send("4th post!");
+      expect(createPostResponse.status).toBe(201);
+      const { newPost } = createPostResponse.body;
+      expect(newPost).toEqual(
         expect.objectContaining({
-          text: posts[2].text,
-          likesCount: 3,
-        }),
-        expect.objectContaining({
-          text: posts[1].text,
-          likesCount: 3,
-        }),
-      ])
-    );
+          text: "4th post!",
+        })
+      );
+    });
   });
 });
