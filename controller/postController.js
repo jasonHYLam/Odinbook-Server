@@ -33,4 +33,25 @@ exports.getAllPosts = asyncHandler(async (req, res, next) => {
 
 // delete post
 // create post
+exports.createPost = [
+  body("text").trim().isLength({ min: 0, max: 500 }).escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send(errors);
+    }
+
+    const escapedText = he.decode(req.body.text);
+
+    const newPost = new Post({
+      text: escapedText,
+      creator: req.user._id,
+      datePosted: new Date(),
+    });
+    await newPost.save();
+
+    res.status(201).send(newPost);
+  }),
+];
+
 // edit post
