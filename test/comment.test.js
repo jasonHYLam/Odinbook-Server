@@ -12,6 +12,7 @@ const comments = require("./testData/comments");
 
 const { postIDs } = require("./testData/ids");
 const { userIDs } = require("./testData/ids");
+const { commentIDs } = require("./testData/ids");
 
 const IMAGE_1_PATH = "test/testConfig/testUploadImages/weepinbell.png";
 const IMAGE_2_PATH = "./testConfig/testUploadImages/lapras.png";
@@ -82,6 +83,18 @@ describe("comment tests", () => {
         .post(`/comment/${invalid_ID}/comment`)
         .send({ text: "new comment woo" });
       expect(writeCommentResponse.status).toBe(400);
+    });
+  });
+
+  describe("edit comment", () => {
+    test("successfully edit comment", async () => {
+      const editCommentResponse = await agent
+        .put(`/comment/${postIDs[0]}/${commentIDs[0]}/edit`)
+        .send({
+          text: "Edited 1st comment",
+        });
+
+      expect(editCommentResponse.status).toBe(201);
     });
   });
 });

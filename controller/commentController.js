@@ -32,3 +32,25 @@ exports.writeComment = [
     res.status(201).send({ newComment });
   }),
 ];
+
+exports.editComment = [
+  body("text")
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage("must be between 1-100 characters")
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).send({ errors });
+
+    const { postID, commentID } = req.params;
+    console.log("checking req.params");
+    console.log(req.params);
+    if (!isValidObjectId(postID) || !isValidObjectId(commentID)) {
+      return res.status(400).send({ errors });
+    }
+
+    res.status(201).send({});
+  }),
+];
