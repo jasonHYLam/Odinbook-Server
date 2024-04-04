@@ -113,6 +113,9 @@ exports.likePost = asyncHandler(async (req, res, next) => {
 
   const matchingPost = await Post.findById(postID).exec();
   if (!matchingPost) return res.status(400).end();
+  if (matchingPost.likedBy.includes(req.user._id)) {
+    return res.status(400).end();
+  }
 
   const likedPost = await Post.findByIdAndUpdate(
     postID,
