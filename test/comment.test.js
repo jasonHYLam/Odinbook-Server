@@ -125,5 +125,44 @@ describe("comment tests", () => {
         .send({ text: "Edited 1st comment" });
       expect(editCommentResponse.status).toBe(400);
     });
+
+    test("sends error if postID doesn't match existing document", async () => {
+      const bad_post_ID = userIDs[0];
+      const editCommentResponse = await agent
+        .put(`/comment/${bad_post_ID}/${commentIDs[0]}/edit`)
+        .send({ text: "Edited 1st comment" });
+      expect(editCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if commentID doesn't match existing document", async () => {
+      const bad_post_ID = userIDs[0];
+      const editCommentResponse = await agent
+        .put(`/comment/${postIDs[0]}/${bad_post_ID}/edit`)
+        .send({ text: "Edited 1st comment" });
+      expect(editCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if comment does not correspond to post comments", async () => {
+      const editCommentResponse = await agent
+        .put(`/comment/${postIDs[0]}/${commentIDs[3]}/edit`)
+        .send({ text: "Edited 1st comment" });
+      expect(editCommentResponse.status).toBe(400);
+    });
+  });
+
+  describe("delete comments", () => {
+    test("successfully delete existing comment", async () => {
+      const deleteCommentResponse = await agent.delete(
+        `/comment/${postIDs[0]}/${commentIDs[0]}/delete`
+      );
+      expect(deleteCommentResponse.status).toBe(200);
+      const { deletedComment } = deleteCommentResponse.body;
+      expect(deletedComment).toEqual(
+        expect.objectContaining({
+          text: "This comment has been deleted",
+          isDeleted: true,
+        })
+      );
+    });
   });
 });
