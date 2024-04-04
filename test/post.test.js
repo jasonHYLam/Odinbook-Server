@@ -165,8 +165,18 @@ describe("post tests", () => {
         })
       );
     });
-    // invalid id
-    // nonmatching id
+
+    test("send error if postID is invalid", async () => {
+      const deletePostResponse = await agent.delete(`/post/bad_post_ID/delete`);
+      expect(deletePostResponse.status).toBe(400);
+    });
+
+    test("send error if postID doesn't correspond with existing document", async () => {
+      const deletePostResponse = await agent.delete(
+        `/post/${userIDs[0]}/delete`
+      );
+      expect(deletePostResponse.status).toBe(400);
+    });
   });
 
   describe("like/unlike post", () => {
