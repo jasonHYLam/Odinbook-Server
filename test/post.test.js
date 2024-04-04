@@ -188,7 +188,17 @@ describe("post tests", () => {
     });
 
     // test send error if invalid postID
+    test("send error if invalid postID", async () => {
+      const unlikePostResponse = await agent.put(`/post/bad_post_ID/unlike`);
+      expect(unlikePostResponse.status).toBe(400);
+    });
+
     // test send error if no matching postID
+    test("send error if postID doesn't match existing document", async () => {
+      const unlikePostResponse = await agent.put(`/post/${userIDs[0]}/unlike`);
+      expect(unlikePostResponse.status).toBe(400);
+    });
+
     // cannot like a post that has not been liked
   });
 
