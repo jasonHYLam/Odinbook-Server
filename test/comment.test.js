@@ -70,9 +70,16 @@ describe("comment tests", () => {
     });
 
     test("sends error if postID is invalid", async () => {
-      const post_0_ID = postIDs[0];
       const writeCommentResponse = await agent
         .post(`/comment/bad_post_id/comment`)
+        .send({ text: "new comment woo" });
+      expect(writeCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if postID doesn't match existing post document", async () => {
+      const invalid_ID = userIDs[0];
+      const writeCommentResponse = await agent
+        .post(`/comment/${invalid_ID}/comment`)
         .send({ text: "new comment woo" });
       expect(writeCommentResponse.status).toBe(400);
     });
