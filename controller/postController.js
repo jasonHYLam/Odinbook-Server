@@ -125,3 +125,22 @@ exports.likePost = asyncHandler(async (req, res, next) => {
 
   res.status(201).send({ likedPost });
 });
+
+exports.unlikePost = asyncHandler(async (req, res, next) => {
+  const { postID } = req.params;
+  if (!isValidObjectId(postID)) return res.status(400).end();
+
+  const matchingPost = await Post.findById(postID).exec();
+  if (!matchingPost) return res.status(400).end();
+  if (matchingPost.likedBy.includes(req.user._id)) {
+    return res.status(400).end();
+  }
+
+  const unlikedPost = await Post.findByIdAndUpdate(
+    postID,
+    { $pull: { likedBy: req.user.id } },
+    { new: true }
+  );
+
+  res.status(201).send({ unlikedPost });
+});
