@@ -71,7 +71,7 @@ describe("post tests", () => {
     expect(allPosts).toEqual([
       expect.objectContaining({
         text: posts[2].text,
-        likesCount: 3,
+        likesCount: 2,
       }),
       expect.objectContaining({
         text: posts[1].text,
@@ -148,6 +148,19 @@ describe("post tests", () => {
         .put(`/post/${userIDs[0]}/edit`)
         .send({ text: "4th post, with an edit!" });
       expect(editPostResponse.status).toBe(400);
+    });
+  });
+
+  describe("like/unlike post", () => {
+    test("successfully like post", async () => {
+      const likePostResponse = await agent.put(`/post/${postIDs[2]}/like`);
+      expect(likePostResponse.status).toBe(201);
+
+      expect(likePostResponse).toEqual(
+        expect.objectContaining({
+          likedBy: expect.arrayContaining([userIDs[0]]),
+        })
+      );
     });
   });
 });

@@ -20,7 +20,7 @@ const posts = [
     text: "3rd post eep",
     creator: userIDs[2],
     datePosted: new Date("2024-03-21T11:36:00"),
-    likedBy: [userIDs[1], userIDs[0], userIDs[3]],
+    likedBy: [userIDs[1], userIDs[3]],
   },
 ];
 
