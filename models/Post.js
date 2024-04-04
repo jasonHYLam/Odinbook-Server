@@ -15,6 +15,7 @@ const PostSchema = new Schema(
     imageURLs: [{ type: String }],
     datePosted: { type: Date, required: true },
     likedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    isDeleted: { type: Boolean },
   },
   opts
 );
