@@ -22,6 +22,13 @@ const comments = [
     post: postIDs[0],
     dateCommented: new Date("2024-03-21T11:41:00"),
   },
+  {
+    _id: commentIDs[3],
+    text: "Comment in post[1]",
+    author: userIDs[3],
+    post: postIDs[1],
+    dateCommented: new Date("2024-03-21T11:41:00"),
+  },
 ];
 
 module.exports = comments;
