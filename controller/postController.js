@@ -109,6 +109,10 @@ exports.editPost = [
 
 exports.likePost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
+  if (!isValidObjectId(postID)) return res.status(400).end();
+
+  const matchingPost = await Post.findById(postID).exec();
+  if (!matchingPost) return res.status(400).end();
 
   const likedPost = await Post.findByIdAndUpdate(
     postID,

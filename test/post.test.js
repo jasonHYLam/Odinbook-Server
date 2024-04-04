@@ -159,5 +159,30 @@ describe("post tests", () => {
       const { likedPost } = likePostResponse.body;
       expect(likedPost.likedBy).toContain(userIDs[0].toString());
     });
+
+    // test
+    test("send error if invalid postID", async () => {
+      const likePostResponse = await agent.put(`/post/bad_post_ID/like`);
+      expect(likePostResponse.status).toBe(400);
+    });
+
+    // test send error if no matching postID
+    test("send error if postID doesn't match existing document", async () => {
+      const likePostResponse = await agent.put(`/post/${userIDs[0]}/like`);
+      expect(likePostResponse.status).toBe(400);
+    });
+
+    // cannot like a post that is already liked
+    test("send error if user attempts to like a post that is already liked", async () => {
+      const likePostResponse = await agent.put(`/post/${postIDs[1]}/like`);
+      expect(likePostResponse.status).toBe(400);
+    });
+
+    // test successfully unlike post
+    // test send error if invalid postID
+    // test send error if no matching postID
+    // cannot like a post that has not been liked
   });
+
+  // successfully delete post
 });
