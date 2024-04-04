@@ -7,6 +7,7 @@ const indexRouter = require("../../routes/index");
 const authRouter = require("../../routes/authRoutes");
 const userRouter = require("../../routes/userRouter");
 const postRouter = require("../../routes/postRouter");
+const commentRouter = require("../../routes/commentRouter");
 
 initializePassport(passport);
 
@@ -33,5 +34,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/post", postRouter);
+app.use("/comment", commentRouter);
 
 module.exports = app;
