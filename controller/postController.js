@@ -4,6 +4,7 @@ const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+const { upload } = require("../config/multer");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
@@ -50,6 +51,30 @@ exports.createPost = [
     });
     await newPost.save();
 
+    res.status(201).send({ newPost });
+  }),
+];
+
+exports.createPostWithImage = [
+  body("text").trim().isLength({ min: 0, max: 500 }).escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).end();
+    next();
+  }),
+  upload.array("image", 4),
+  asyncHandler(async (req, res, next) => {
+    const escapedText = he.decode(req.body.text);
+    const imagePathURLs = req.file.map((file) => file.path);
+
+    const newPost = new Post({
+      text: escapedText,
+      creator: req.user._id,
+      imageURLs: imagePathURLs,
+      datePosted: new Date(),
+    });
+
+    newPost.save();
     res.status(201).send({ newPost });
   }),
 ];
