@@ -179,6 +179,14 @@ describe("post tests", () => {
     });
 
     // test successfully unlike post
+    test("successfully unlike post", async () => {
+      const likePostResponse = await agent.put(`/post/${postIDs[1]}/unlike`);
+      expect(likePostResponse.status).toBe(201);
+
+      const { likedPost } = likePostResponse.body;
+      expect(likedPost.likedBy).not.toContain(userIDs[0].toString());
+    });
+
     // test send error if invalid postID
     // test send error if no matching postID
     // cannot like a post that has not been liked
