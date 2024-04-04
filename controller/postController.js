@@ -31,7 +31,6 @@ exports.getAllPosts = asyncHandler(async (req, res, next) => {
   res.status(201).send({ allPosts });
 });
 
-// delete post
 exports.createPost = [
   body("text").trim().isLength({ min: 1, max: 500 }).escape(),
   asyncHandler(async (req, res, next) => {
@@ -107,3 +106,15 @@ exports.editPost = [
 ];
 
 // delete post, lets come back to this after deleting comments
+
+exports.likePost = asyncHandler(async (req, res, next) => {
+  const { postID } = req.params;
+
+  const likedPost = await Post.findByIdAndUpdate(
+    postID,
+    { $push: { likedBy: req.user.id } },
+    { new: true }
+  );
+
+  res.status(201).send({ likedPost });
+});
