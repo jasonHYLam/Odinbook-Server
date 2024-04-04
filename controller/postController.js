@@ -106,6 +106,20 @@ exports.editPost = [
 ];
 
 // delete post, lets come back to this after deleting comments
+exports.deletePost = asyncHandler(async (req, res, next) => {
+  const { postID } = req.params;
+  if (!isValidObjectId(postID)) return res.status(400).end();
+
+  const matchingPost = await Post.findById(postID).exec();
+  if (!matchingPost) return res.status(400).end();
+
+  const deletedPost = await Post.findByIdAndUpdate(
+    postID,
+    { isDeleted: true },
+    { new: true }
+  );
+  res.status(201).send({ deletedPost });
+});
 
 exports.likePost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
