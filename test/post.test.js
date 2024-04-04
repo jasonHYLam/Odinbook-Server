@@ -180,11 +180,11 @@ describe("post tests", () => {
 
     // test successfully unlike post
     test("successfully unlike post", async () => {
-      const likePostResponse = await agent.put(`/post/${postIDs[1]}/unlike`);
-      expect(likePostResponse.status).toBe(201);
+      const unlikePostResponse = await agent.put(`/post/${postIDs[1]}/unlike`);
+      expect(unlikePostResponse.status).toBe(201);
 
-      const { likedPost } = likePostResponse.body;
-      expect(likedPost.likedBy).not.toContain(userIDs[0].toString());
+      const { unlikedPost } = unlikePostResponse.body;
+      expect(unlikedPost.likedBy).not.toContain(userIDs[0].toString());
     });
 
     // test send error if invalid postID
