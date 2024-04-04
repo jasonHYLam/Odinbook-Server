@@ -45,12 +45,18 @@ exports.editComment = [
     if (!errors.isEmpty()) return res.status(400).send({ errors });
 
     const { postID, commentID } = req.params;
-    console.log("checking req.params");
-    console.log(req.params);
     if (!isValidObjectId(postID) || !isValidObjectId(commentID)) {
       return res.status(400).send({ errors });
     }
 
-    res.status(201).send({});
+    const escapedText = he.decode(req.body.text);
+
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentID,
+      { text: escapedText },
+      { new: true }
+    );
+
+    res.status(201).send({ updatedComment });
   }),
 ];
