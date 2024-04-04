@@ -95,6 +95,14 @@ describe("comment tests", () => {
         });
 
       expect(editCommentResponse.status).toBe(201);
+
+      const { editedComment } = editCommentResponse.body;
+
+      expect(editedComment).toEqual(
+        expect.objectContaining({
+          text: "Edited 1st comment",
+        })
+      );
     });
   });
 });
