@@ -111,5 +111,19 @@ describe("comment tests", () => {
         .send({ text: "" });
       expect(editCommentResponse.status).toBe(400);
     });
+
+    test("sends error if postID is not a valid objectID", async () => {
+      const editCommentResponse = await agent
+        .put(`/comment/bad_post_ID/${commentIDs[0]}/edit`)
+        .send({ text: "Edited 1st comment" });
+      expect(editCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if commentID is not a valid objectID", async () => {
+      const editCommentResponse = await agent
+        .put(`/comment/${postIDs[0]}/bad_comment_ID/edit`)
+        .send({ text: "Edited 1st comment" });
+      expect(editCommentResponse.status).toBe(400);
+    });
   });
 });
