@@ -156,7 +156,14 @@ describe("post tests", () => {
       const deletePostResponse = await agent.delete(
         `/post/${postIDs[0]}/delete`
       );
-      expect(deletePostResponse.status).toBe(200);
+      expect(deletePostResponse.status).toBe(201);
+
+      const { deletedPost } = deletePostResponse.body;
+      expect(deletedPost).toEqual(
+        expect.objectContaining({
+          isDeleted: true,
+        })
+      );
     });
     // invalid id
     // nonmatching id
