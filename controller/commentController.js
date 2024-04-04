@@ -90,7 +90,7 @@ exports.deleteComment = asyncHandler(async (req, res, next) => {
 
   const deletedComment = await Comment.findByIdAndUpdate(
     commentID,
-    { text: "This comment has been deleted" },
+    { text: "This comment has been deleted", isDeleted: true },
     { new: true }
   );
 
