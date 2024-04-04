@@ -70,3 +70,23 @@ exports.editComment = [
     res.status(201).send({ editedComment });
   }),
 ];
+
+exports.deleteComment = asyncHandler(async (req, res, next) => {
+  const { postID, commentID } = req.params;
+
+  if (!isValidObjectId(postID) || !isValidObjectId(commentID)) {
+    return res.status(400).end();
+  }
+
+  const matchingPost = await Post.findById(postID).exec();
+  const matchingComment = await Comment.findById(commentID).exec();
+  const isCommentInPost = await Comment.findOne({
+    _id: commentID,
+    post: postID,
+  });
+  if (!matchingPost || !matchingComment || !isCommentInPost) {
+    return res.status(400).end();
+  }
+
+  res.status(200).send({});
+});

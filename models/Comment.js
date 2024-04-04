@@ -15,6 +15,7 @@ const CommentSchema = new Schema(
     post: { type: Schema.Types.ObjectId, required: true, ref: "Post" },
     imageUrl: { type: String },
     dateCommented: { type: Date, required: true },
+    isDeleted: { type: Boolean },
   },
   opts
 );
