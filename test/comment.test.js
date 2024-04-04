@@ -104,5 +104,12 @@ describe("comment tests", () => {
         })
       );
     });
+
+    test("sends error if edit text is empty", async () => {
+      const editCommentResponse = await agent
+        .put(`/comment/${postIDs[0]}/${commentIDs[0]}/edit`)
+        .send({ text: "" });
+      expect(editCommentResponse.status).toBe(400);
+    });
   });
 });

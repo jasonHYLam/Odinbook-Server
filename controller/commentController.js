@@ -51,12 +51,12 @@ exports.editComment = [
 
     const escapedText = he.decode(req.body.text);
 
-    const updatedComment = await Comment.findByIdAndUpdate(
+    const editedComment = await Comment.findByIdAndUpdate(
       commentID,
       { text: escapedText },
       { new: true }
     );
 
-    res.status(201).send({ updatedComment });
+    res.status(201).send({ editedComment });
   }),
 ];
