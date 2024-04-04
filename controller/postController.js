@@ -27,8 +27,6 @@ exports.getAllPosts = asyncHandler(async (req, res, next) => {
     .populate("creator")
     .sort({ datePosted: -1 })
     .exec();
-  console.log("checking allPosts");
-  console.log(allPosts);
   res.status(201).send({ allPosts });
 });
 
@@ -59,7 +57,6 @@ exports.createPostWithImage = [
   upload.single("image"),
   body("text").trim().isLength({ min: 1, max: 500 }).escape(),
   asyncHandler(async (req, res, next) => {
-    console.log("does this happen");
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).end();
     next();

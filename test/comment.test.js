@@ -55,9 +55,9 @@ describe("comment tests", () => {
   describe("write comment", () => {
     test("successfully write comment", async () => {
       const post_0_ID = postIDs[0];
-      const writeCommentResponse = await agent.post(
-        `/post/${post_0_ID}/comment`
-      );
+      const writeCommentResponse = await agent
+        .post(`/comment/${post_0_ID}/comment`)
+        .send({ text: "new comment woo" });
       expect(writeCommentResponse.status).toBe(201);
     });
   });
