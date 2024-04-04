@@ -60,5 +60,21 @@ describe("comment tests", () => {
         .send({ text: "new comment woo" });
       expect(writeCommentResponse.status).toBe(201);
     });
+
+    test("sends error if comment has no text", async () => {
+      const post_0_ID = postIDs[0];
+      const writeCommentResponse = await agent
+        .post(`/comment/${post_0_ID}/comment`)
+        .send({ text: "" });
+      expect(writeCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if postID is invalid", async () => {
+      const post_0_ID = postIDs[0];
+      const writeCommentResponse = await agent
+        .post(`/comment/bad_post_id/comment`)
+        .send({ text: "new comment woo" });
+      expect(writeCommentResponse.status).toBe(400);
+    });
   });
 });

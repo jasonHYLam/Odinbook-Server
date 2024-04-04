@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const he = require("he");
 const Comment = require("../models/Comment");
+const Post = require("../models/Post");
+const { isValidObjectId } = require("mongoose");
 
 exports.writeComment = [
   body("text")
@@ -15,6 +17,10 @@ exports.writeComment = [
     if (!errors.isEmpty()) return res.status(400).send({ errors });
 
     const { postID } = req.params;
+    if (!isValidObjectId(postID)) return res.status(400).send({ errors });
+    const matchingPost = await Post.findById(postID).exec();
+    if (!matchingPost) return res.status(400).send({ errors });
+
     const escapedText = he.decode(req.body.text);
     const newComment = new Comment({
       text: escapedText,
