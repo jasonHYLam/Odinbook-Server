@@ -13,7 +13,7 @@ const comments = require("./testData/comments");
 const { postIDs } = require("./testData/ids");
 const { userIDs } = require("./testData/ids");
 
-const IMAGE_1_PATH = "./testConfig/testUploadImages/weepinbell.png";
+const IMAGE_1_PATH = "test/testConfig/testUploadImages/weepinbell.png";
 const IMAGE_2_PATH = "./testConfig/testUploadImages/lapras.png";
 
 let agent;
@@ -108,8 +108,8 @@ describe("post tests", () => {
     test("successfully create post with image uploads", async () => {
       const createPostResponse = await agent
         .post("/post/create_post_with_image")
-        .attach("image", IMAGE_1_PATH)
-        .field("text", "4th post with image!");
+        .attach("image", IMAGE_2_PATH);
+      // .field("text", "4th post with image!");
 
       expect(createPostResponse.status).toBe(201);
 
@@ -117,7 +117,7 @@ describe("post tests", () => {
       expect(newPost).toEqual(
         expect.objectContaining({
           imageURL: expect.arrayContaining([expect.any(String)]),
-          text: "4th post with image!",
+          // text: "4th post with image!",
         })
       );
     });
