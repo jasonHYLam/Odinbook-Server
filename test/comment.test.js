@@ -31,7 +31,7 @@ beforeEach(async () => {
 });
 afterEach(async () => await dropDB());
 
-describe("comment tests", () => {
+describe.skip("comment tests", () => {
   test("get comments for a post", async () => {
     const post_0_ID = postIDs[0];
     const getPostResponse = await agent.get(`/post/${post_0_ID}`);

@@ -156,11 +156,8 @@ describe("post tests", () => {
       const likePostResponse = await agent.put(`/post/${postIDs[2]}/like`);
       expect(likePostResponse.status).toBe(201);
 
-      expect(likePostResponse).toEqual(
-        expect.objectContaining({
-          likedBy: expect.arrayContaining([userIDs[0]]),
-        })
-      );
+      const { likedPost } = likePostResponse.body;
+      expect(likedPost.likedBy).toContain(userIDs[0].toString());
     });
   });
 });
