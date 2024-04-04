@@ -29,3 +29,36 @@ beforeEach(async () => {
   await agent.post("/auth/login").send(loginData);
 });
 afterEach(async () => await dropDB());
+
+describe("comment tests", () => {
+  test("get comments for a post", async () => {
+    const post_0_ID = postIDs[0];
+    const getPostResponse = await agent.get(`/post/${post_0_ID}`);
+    expect(getPostResponse.status).toBe(201);
+
+    const { comments } = getPostResponse.body;
+    expect(comments).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          text: comments[0].text,
+        }),
+        expect.objectContaining({
+          text: comments[1].text,
+        }),
+        expect.objectContaining({
+          text: comments[2].text,
+        }),
+      ])
+    );
+  });
+
+  describe("write comment", () => {
+    test("successfully write comment", async () => {
+      const post_0_ID = postIDs[0];
+      const writeCommentResponse = await agent.post(
+        `/post/${post_0_ID}/comment`
+      );
+      expect(writeCommentResponse.status).toBe(201);
+    });
+  });
+});

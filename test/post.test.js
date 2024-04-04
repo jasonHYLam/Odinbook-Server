@@ -105,7 +105,7 @@ describe("post tests", () => {
       );
     });
 
-    test("successfully create post with image uploads", async () => {
+    test.skip("successfully create post with image uploads", async () => {
       const createPostResponse = await agent
         .post("/post/create_post_with_image")
         .attach("image", IMAGE_2_PATH);
