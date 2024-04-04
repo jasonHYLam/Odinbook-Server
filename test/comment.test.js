@@ -164,5 +164,42 @@ describe("comment tests", () => {
         })
       );
     });
+
+    test("send error if postID is invalid", async () => {
+      const deleteCommentResponse = await agent.delete(
+        `/comment/bad_post_ID/${commentIDs[0]}/delete`
+      );
+      expect(deleteCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if commentID is not a valid objectID", async () => {
+      const deleteCommentResponse = await agent.delete(
+        `/comment/${postIDs[0]}/bad_comment_ID/delete`
+      );
+      expect(deleteCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if postID doesn't match existing document", async () => {
+      const bad_post_ID = userIDs[0];
+      const deleteCommentResponse = await agent.delete(
+        `/comment/${bad_post_ID}/${commentIDs[0]}/delete`
+      );
+      expect(deleteCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if commentID doesn't match existing document", async () => {
+      const bad_post_ID = userIDs[0];
+      const deleteCommentResponse = await agent.delete(
+        `/comment/${postIDs[0]}/${bad_post_ID}/delete`
+      );
+      expect(deleteCommentResponse.status).toBe(400);
+    });
+
+    test("sends error if comment does not correspond to post comments", async () => {
+      const deleteCommentResponse = await agent.delete(
+        `/comment/${postIDs[0]}/${commentIDs[3]}/delete`
+      );
+      expect(deleteCommentResponse.status).toBe(400);
+    });
   });
 });
