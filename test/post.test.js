@@ -128,12 +128,26 @@ describe("post tests", () => {
       const editPostResponse = await agent
         .put(`/post/${postIDs[0]}/edit`)
         .send({ text: "4th post, with an edit!" });
-
       expect(editPostResponse.status).toBe(201);
+
       const { editedPost } = editPostResponse.body;
       expect(editedPost).toEqual(
         expect.objectContaining({ text: "4th post, with an edit!" })
       );
+    });
+
+    test("send error if postID is invalid", async () => {
+      const editPostResponse = await agent
+        .put(`/post/bad_post_ID/edit`)
+        .send({ text: "4th post, with an edit!" });
+      expect(editPostResponse.status).toBe(400);
+    });
+
+    test("send error if postID doesn't correspond with existing document", async () => {
+      const editPostResponse = await agent
+        .put(`/post/${userIDs[0]}/edit`)
+        .send({ text: "4th post, with an edit!" });
+      expect(editPostResponse.status).toBe(400);
     });
   });
 });
