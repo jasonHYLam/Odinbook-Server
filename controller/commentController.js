@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const he = require("he");
 const Comment = require("../models/Comment");
-const Post = require("../models/Post");
 
 exports.writeComment = [
   body("text")
