@@ -54,7 +54,7 @@ exports.editComment = [
     const isCommentInPost = await Comment.findOne({
       _id: commentID,
       post: postID,
-    });
+    }).exec();
     if (!matchingPost || !matchingComment || !isCommentInPost) {
       return res.status(400).end();
     }
@@ -83,10 +83,16 @@ exports.deleteComment = asyncHandler(async (req, res, next) => {
   const isCommentInPost = await Comment.findOne({
     _id: commentID,
     post: postID,
-  });
+  }).exec();
   if (!matchingPost || !matchingComment || !isCommentInPost) {
     return res.status(400).end();
   }
 
-  res.status(200).send({});
+  const deletedComment = await Comment.findByIdAndUpdate(
+    commentID,
+    { text: "This comment has been deleted" },
+    { new: true }
+  );
+
+  res.status(200).send({ deletedComment });
 });
