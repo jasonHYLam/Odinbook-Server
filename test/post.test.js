@@ -151,6 +151,17 @@ describe("post tests", () => {
     });
   });
 
+  describe("deleting post", () => {
+    test("successfully delete post", async () => {
+      const deletePostResponse = await agent.delete(
+        `/post/${postIDs[0]}/delete`
+      );
+      expect(deletePostResponse.status).toBe(200);
+    });
+    // invalid id
+    // nonmatching id
+  });
+
   describe("like/unlike post", () => {
     test("successfully like post", async () => {
       const likePostResponse = await agent.put(`/post/${postIDs[2]}/like`);
@@ -160,25 +171,21 @@ describe("post tests", () => {
       expect(likedPost.likedBy).toContain(userIDs[0].toString());
     });
 
-    // test
     test("send error if invalid postID", async () => {
       const likePostResponse = await agent.put(`/post/bad_post_ID/like`);
       expect(likePostResponse.status).toBe(400);
     });
 
-    // test send error if no matching postID
     test("send error if postID doesn't match existing document", async () => {
       const likePostResponse = await agent.put(`/post/${userIDs[0]}/like`);
       expect(likePostResponse.status).toBe(400);
     });
 
-    // cannot like a post that is already liked
     test("send error if user attempts to like a post that is already liked", async () => {
       const likePostResponse = await agent.put(`/post/${postIDs[1]}/like`);
       expect(likePostResponse.status).toBe(400);
     });
 
-    // test successfully unlike post
     test("successfully unlike post", async () => {
       const unlikePostResponse = await agent.put(`/post/${postIDs[1]}/unlike`);
       expect(unlikePostResponse.status).toBe(201);
@@ -187,20 +194,19 @@ describe("post tests", () => {
       expect(unlikedPost.likedBy).not.toContain(userIDs[0].toString());
     });
 
-    // test send error if invalid postID
     test("send error if invalid postID", async () => {
       const unlikePostResponse = await agent.put(`/post/bad_post_ID/unlike`);
       expect(unlikePostResponse.status).toBe(400);
     });
 
-    // test send error if no matching postID
     test("send error if postID doesn't match existing document", async () => {
       const unlikePostResponse = await agent.put(`/post/${userIDs[0]}/unlike`);
       expect(unlikePostResponse.status).toBe(400);
     });
 
-    // cannot like a post that has not been liked
+    test("send error if user attempts to unlike a post that has not been liked", async () => {
+      const unlikePostResponse = await agent.put(`/post/${postIDs[2]}/unlike`);
+      expect(unlikePostResponse.status).toBe(400);
+    });
   });
-
-  // successfully delete post
 });
