@@ -9,14 +9,14 @@ const User = require("../models/User");
 exports.signup = [
   body("username")
     .trim()
-    .isLength({ min: 5, max: 20 })
-    .withMessage("must be between 5-20 characters")
+    .isLength({ min: 3, max: 25 })
+    .withMessage("must be between 3-25 characters")
     .escape(),
 
   body("password")
     .trim()
-    .isLength({ min: 5 })
-    .withMessage("must be at least 5 characters")
+    .isLength({ min: 3 })
+    .withMessage("must be at least 3 characters")
     .escape(),
 
   body("confirmPassword")
@@ -57,6 +57,7 @@ exports.login = [
   passport.authenticate("local"),
 
   asyncHandler(async (req, res, next) => {
+    console.log("checkin this out");
     const { _id, username } = req.user;
     res.status(201).send({ username, _id });
   }),
