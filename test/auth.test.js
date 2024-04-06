@@ -23,7 +23,7 @@ const loginData = {
   password: users[0].password,
 };
 
-describe.skip("auth tests", () => {
+describe("auth tests", () => {
   describe("signup", () => {
     test("successful sign up", async () => {
       const signUpData = {
@@ -38,8 +38,8 @@ describe.skip("auth tests", () => {
       test("username too short", async () => {
         const signUpData = {
           username: "newU",
-          password: "Abc123",
-          confirmPassword: "Abc123",
+          password: "Ab",
+          confirmPassword: "Ab",
         };
         const signupResponse = await agent
           .post("/auth/signup")
@@ -50,8 +50,8 @@ describe.skip("auth tests", () => {
       test("password too short", async () => {
         const signUpData = {
           username: "newUser",
-          password: "Abc1",
-          confirmPassword: "Abc1",
+          password: "Ab",
+          confirmPassword: "Ab",
         };
         const signupResponse = await agent
           .post("/auth/signup")
@@ -89,7 +89,7 @@ describe.skip("auth tests", () => {
   describe("login", () => {
     test("successful login (valid credentials)", async () => {
       const loginResponse = await agent.post("/auth/login").send(loginData);
-      expect(loginResponse.status).toBe(201);
+      expect(loginResponse.status).toBe(200);
     });
 
     describe("unsuccessful logins", () => {
@@ -125,7 +125,7 @@ describe.skip("auth tests", () => {
   describe("logout", () => {
     test("successful logout (after logout)", async () => {
       const loginResponse = await agent.post("/auth/login").send(loginData);
-      expect(loginResponse.status).toBe(201);
+      expect(loginResponse.status).toBe(200);
       const logoutResponse = await agent.delete("/auth/logout");
       expect(logoutResponse.status).toBe(200);
     });

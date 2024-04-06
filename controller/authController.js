@@ -57,10 +57,6 @@ exports.login = [
   passport.authenticate("local"),
 
   asyncHandler(async (req, res, next) => {
-    // will need to adjust this test...
-    // console.log("checkin this out");
-    // const { _id, username } = req.user;
-    // res.status(201).send({ username, _id });
     res.end();
   }),
 ];
