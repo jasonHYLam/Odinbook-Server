@@ -5,6 +5,12 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 
 // view profile
+exports.getLoggedInUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id).exec();
+  console.log("checking user");
+  console.log(user);
+  res.status(201).send({ user });
+});
 exports.view_personal_profile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).exec();
   const posts = await Post.find({ creator: req.user.id }).exec();
