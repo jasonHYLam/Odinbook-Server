@@ -42,7 +42,7 @@ exports.signup = [
           password: hashedPassword,
         });
         await newUser.save();
-        res.end();
+        next();
       } catch (err) {
         if (err) next(err);
       }
