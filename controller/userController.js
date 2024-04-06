@@ -6,7 +6,7 @@ const Post = require("../models/Post");
 
 // view profile
 exports.getLoggedInUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id).exec();
+  const user = await User.findById(req.user.id, "-password").exec();
   console.log("checking user");
   console.log(user);
   res.status(201).send({ user });
