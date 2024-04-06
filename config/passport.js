@@ -7,10 +7,16 @@ function initializePassport(passport) {
     new LocalStrategy(async (username, password, done) => {
       try {
         const user = await User.findOne({ username: username });
-        if (!user) return done(null, false, { message: "No user" });
+        if (!user) {
+          return done(null, false, { message: "No user" });
+        }
 
         const match = await bcrypt.compare(password, user.password);
-        if (!match) return done(null, false, { message: "Incorrect password" });
+        if (!match) {
+          // console.log("b");
+          return done(null, false, { message: "Incorrect password" });
+        }
+        console.log("all good");
 
         return done(null, user);
       } catch (err) {
