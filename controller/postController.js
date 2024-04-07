@@ -10,7 +10,6 @@ const { isValidObjectId } = require("mongoose");
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
 
-  // const post = await Post.findById(postID).exec();
   const post = await Post.findById(postID)
     .populate("creator", "username profilePicURL")
     .populate("likedBy", "username profilePicURL")
@@ -20,7 +19,9 @@ exports.getPost = asyncHandler(async (req, res, next) => {
     "username profilePicURL"
   );
 
-  res.status(201).send({ post, comments });
+  const isLiked = post.likedBy.some((user) => user.id === req.user.id);
+
+  res.status(201).send({ post, comments, isLiked });
 });
 
 exports.getAllPosts = asyncHandler(async (req, res, next) => {
