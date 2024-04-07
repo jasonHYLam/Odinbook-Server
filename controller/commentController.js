@@ -28,6 +28,7 @@ exports.writeComment = [
       post: postID,
       dateCommented: new Date(),
     });
+    await newComment.save();
 
     res.status(201).send({ newComment });
   }),
