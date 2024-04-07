@@ -13,7 +13,9 @@ exports.getLoggedInUser = asyncHandler(async (req, res, next) => {
 });
 exports.view_personal_profile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).exec();
-  const posts = await Post.find({ creator: req.user.id }).exec();
+  const posts = await Post.find({ creator: req.user.id })
+    .populate("creator", "-password")
+    .exec();
   const isLoggedInUser = true;
   res.json({ user, posts, isLoggedInUser });
 });
