@@ -4,6 +4,7 @@ const he = require("he");
 const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 const { isValidObjectId } = require("mongoose");
+const User = require("../models/User");
 
 exports.writeComment = [
   body("text")
@@ -29,6 +30,9 @@ exports.writeComment = [
       dateCommented: new Date(),
     });
     await newComment.save();
+
+    const author = await User.findById(req.user.id, "-password");
+    newComment.author = author;
 
     res.status(201).send({ newComment });
   }),
