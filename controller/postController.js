@@ -10,9 +10,11 @@ const { isValidObjectId } = require("mongoose");
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
 
-  const post = await Post.findById(postID).exec();
-  // .populate("creator", "username profilePicURL")
-  // .populate("likedBy", "username profilePicURL");
+  // const post = await Post.findById(postID).exec();
+  const post = await Post.findById(postID)
+    .populate("creator", "username profilePicURL")
+    .populate("likedBy", "username profilePicURL")
+    .exec();
   const comments = await Comment.find({ post: postID }).populate(
     "author",
     "username profilePicURL"
