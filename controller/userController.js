@@ -147,3 +147,20 @@ exports.unfollowUser = asyncHandler(async (req, res, next) => {
 
   res.status(201).send({ loggedInUser, userUnfollowed });
 });
+
+exports.searchUsers = [
+  body("searchQuery").trim().escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).end();
+    } else {
+      // need to use regex here
+      const searchQuery = he.decode(req.body.searchQuery);
+      const users = await User.find({
+        username: { $regex: searchQuery, $options: "i" },
+      });
+      console.log(users);
+    }
+  }),
+];
