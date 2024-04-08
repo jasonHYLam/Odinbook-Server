@@ -160,7 +160,8 @@ exports.searchUsers = [
       const users = await User.find({
         username: { $regex: searchQuery, $options: "i" },
       });
-      console.log(users);
+      // console.log(users);
+      res.status(201).send({ users });
     }
   }),
 ];
