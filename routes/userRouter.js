@@ -9,6 +9,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/get_logged_in_user", userController.getLoggedInUser);
 router.get("/view_personal_profile", userController.view_personal_profile);
+router.get("/:userID/profile", userController.view_profile);
 router.put("/change_username", userController.changeUsername);
 router.put("/change_password", userController.changePassword);
 router.get("/get_followers", userController.getFollowers);

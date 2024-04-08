@@ -23,9 +23,13 @@ exports.view_personal_profile = asyncHandler(async (req, res, next) => {
 exports.view_profile = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
   const user = await User.findById(userID, "username profilePicURL").exec();
+  const posts = await Post.find({ _id: userID });
+  const isLoggedInUserFollowing = user.following.some(
+    (follower) => follower === req.user.id
+  );
   const isLoggedInUser = false;
 
-  res.json({ user, isLoggedInUser });
+  res.json({ user, posts, isLoggedInUser, isLoggedInUserFollowing });
 });
 
 exports.changeUsername = [
