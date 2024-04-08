@@ -158,9 +158,9 @@ exports.searchUsers = [
       // need to use regex here
       const searchQuery = he.decode(req.body.searchQuery);
       const users = await User.find({
+        _id: { $ne: req.user._id },
         username: { $regex: searchQuery, $options: "i" },
       });
-      // console.log(users);
       res.status(201).send({ users });
     }
   }),
