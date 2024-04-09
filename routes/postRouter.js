@@ -3,6 +3,7 @@ const router = express.Router();
 const postController = require("../controller/postController");
 
 router.get("/all_posts", postController.getUserPosts);
+router.get("get_liked_posts", postController.getLikedPosts);
 router.post("/create_post", postController.createPost);
 router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);
