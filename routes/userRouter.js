@@ -12,6 +12,7 @@ router.get("/view_personal_profile", userController.view_personal_profile);
 router.get("/:userID/profile", userController.view_profile);
 router.put("/change_username", userController.changeUsername);
 router.put("/change_password", userController.changePassword);
+router.put("/change_profile_pic", userController.changeProfilePic);
 router.get("/get_followers", userController.getFollowers);
 router.get("/get_following", userController.getFollowing);
 router.post("/search_users", userController.searchUsers);

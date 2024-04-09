@@ -92,7 +92,7 @@ exports.changePassword = [
   }),
 ];
 
-exports.changeProfilePicURL = [
+exports.changeProfilePic = [
   upload.single("profilePic"),
   asyncHandler(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
