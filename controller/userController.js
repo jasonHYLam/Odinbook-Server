@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
@@ -39,8 +40,8 @@ exports.view_profile = asyncHandler(async (req, res, next) => {
 exports.changeUsername = [
   body("username")
     .trim()
-    .isLength({ min: 5, max: 20 })
-    .withMessage("must be between 5-20 characters")
+    .isLength({ min: 3, max: 25 })
+    .withMessage("must be between 3-25 characters")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -63,8 +64,8 @@ exports.changeUsername = [
 exports.changePassword = [
   body("password")
     .trim()
-    .isLength({ min: 5 })
-    .withMessage("must be at least 5 characters")
+    .isLength({ min: 3 })
+    .withMessage("must be at least 3 characters")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -73,13 +74,19 @@ exports.changePassword = [
       return res.status(400).send({ errors: errors.array() });
     } else {
       escapedPassword = he.decode(req.body.password);
-      const user = await User.findByIdAndUpdate(
-        req.user.id,
-        { password: escapedPassword },
-        { new: true }
-      );
 
-      res.send({ user });
+      try {
+        const hashedPassword = await bcrypt.hash(escapedPassword, 10);
+        const user = await User.findByIdAndUpdate(
+          req.user.id,
+          { password: hashedPassword },
+          { new: true }
+        );
+
+        res.send({ user });
+      } catch (err) {
+        if (err) next(err);
+      }
     }
   }),
 ];
