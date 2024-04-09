@@ -6,13 +6,17 @@ const Post = require("../models/Post");
 
 // view profile
 exports.getLoggedInUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id, "-password").exec();
-  console.log("checking user");
-  console.log(user);
+  const user = await User.findById(req.user.id, "-password")
+    .populate("following", "-password -following -followers")
+    .populate("followers", "-password -following -followers")
+    .exec();
   res.status(201).send({ user });
 });
 exports.view_personal_profile = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id).exec();
+  const user = await User.findById(req.user.id)
+    .populate("following", "-password")
+    .populate("followers", "-password")
+    .exec();
   const posts = await Post.find({ creator: req.user.id })
     .populate("creator", "-password")
     .exec();
