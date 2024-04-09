@@ -24,7 +24,7 @@ exports.getPost = asyncHandler(async (req, res, next) => {
   res.status(201).send({ post, comments, isLiked });
 });
 
-exports.getUserPosts = asyncHandler(async (req, res, next) => {
+exports.getFeed = asyncHandler(async (req, res, next) => {
   const { following } = await User.findById(req.user.id).exec();
 
   const allPosts = await Post.find({ creator: { $in: following } })
