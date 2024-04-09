@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const { upload } = require("../config/multer");
 const bcrypt = require("bcryptjs");
 const he = require("he");
 const User = require("../models/User");
@@ -53,7 +54,7 @@ exports.changeUsername = [
       const user = await User.findByIdAndUpdate(
         req.user.id,
         { username: escapedUsername },
-        { new: true }
+        { new: true, select: "-password" }
       );
 
       res.send({ user });
@@ -88,6 +89,19 @@ exports.changePassword = [
         if (err) next(err);
       }
     }
+  }),
+];
+
+exports.changeProfilePicURL = [
+  upload.single("profilePic"),
+  asyncHandler(async (req, res, next) => {
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { profilePicURL: req.file.path },
+      { new: true, select: "-password" }
+    );
+
+    res.status(201).send({ user });
   }),
 ];
 
