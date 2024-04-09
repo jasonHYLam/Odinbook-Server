@@ -28,10 +28,18 @@ exports.getUserPosts = asyncHandler(async (req, res, next) => {
   const { following } = await User.findById(req.user.id).exec();
 
   const allPosts = await Post.find({ creator: { $in: following } })
-    .populate("creator")
+    .populate("creator", "-password")
     .sort({ datePosted: -1 })
     .exec();
   res.status(201).send({ allPosts });
+});
+
+exports.getLikedPosts = asyncHandler(async (req, res, next) => {
+  const likedPosts = await Post.find({ likedBy: { $in: req.user.id } })
+    .populate("creator", "-password")
+    .sort({ datePosted: -1 })
+    .exec();
+  res.status(201).send({ likedPosts });
 });
 
 exports.createPost = [
