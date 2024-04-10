@@ -64,7 +64,7 @@ exports.createPost = [
 ];
 
 exports.createPostWithImage = [
-  upload.single("image"),
+  upload.single("images"),
   body("text").trim().isLength({ min: 1, max: 500 }).escape(),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -72,16 +72,14 @@ exports.createPostWithImage = [
     next();
   }),
 
-  // upload.array("image", 4),
-
   asyncHandler(async (req, res, next) => {
     const escapedText = he.decode(req.body.text);
-    const imagePathURLs = req.file.map((file) => file.path);
+    const imagePathURL = req.file.path;
 
     const newPost = new Post({
       text: escapedText,
       creator: req.user._id,
-      imageURLs: imagePathURLs,
+      imageURL: imagePathURL,
       datePosted: new Date(),
     });
 
@@ -90,7 +88,6 @@ exports.createPostWithImage = [
   }),
 ];
 
-// edit post
 exports.editPost = [
   body("text").trim().isLength({ min: 0, max: 500 }).escape(),
 
@@ -116,7 +113,6 @@ exports.editPost = [
   }),
 ];
 
-// delete post, lets come back to this after deleting comments
 exports.deletePost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
   if (!isValidObjectId(postID)) return res.status(400).end();
