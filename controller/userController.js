@@ -29,7 +29,7 @@ exports.view_personal_profile = asyncHandler(async (req, res, next) => {
 exports.view_profile = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
   const user = await User.findById(userID, "-password").exec();
-  const posts = await Post.find({ _id: userID });
+  const posts = await Post.find({ creator: userID });
   const isLoggedInUserFollowing = user.followers.some(
     (follower) => follower.toString() === req.user.id
   );
