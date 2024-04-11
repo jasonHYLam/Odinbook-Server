@@ -9,8 +9,8 @@ const User = require("../models/User");
 exports.writeComment = [
   body("text")
     .trim()
-    .isLength({ min: 1, max: 100 })
-    .withMessage("must be between 1-100 characters")
+    .isLength({ min: 1, max: 500 })
+    .withMessage("must be between 1-500 characters")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -41,16 +41,23 @@ exports.writeComment = [
 exports.editComment = [
   body("text")
     .trim()
-    .isLength({ min: 1, max: 100 })
-    .withMessage("must be between 1-100 characters")
+    .isLength({ min: 1 })
+    .withMessage("must be more than 1")
+    .isLength({ max: 500 })
+    .withMessage("must be less than 500 characters")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).send({ errors });
+    if (!errors.isEmpty()) {
+      console.log("a");
+      console.log(errors);
+      return res.status(400).send({ errors });
+    }
 
     const { postID, commentID } = req.params;
     if (!isValidObjectId(postID) || !isValidObjectId(commentID)) {
+      console.log("b");
       return res.status(400).end();
     }
 
@@ -61,6 +68,7 @@ exports.editComment = [
       post: postID,
     }).exec();
     if (!matchingPost || !matchingComment || !isCommentInPost) {
+      console.log("hand in glove");
       return res.status(400).end();
     }
 
