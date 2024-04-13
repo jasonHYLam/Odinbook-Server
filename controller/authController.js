@@ -34,7 +34,7 @@ exports.signup = [
       return res.status(400).send({ errors: errors.array() });
     } else {
       escapedUsername = he.decode(req.body.username);
-      escapedPassword = he.decode(req.body.username);
+      escapedPassword = he.decode(req.body.password);
 
       const existingUser = await User.findOne({ username: escapedUsername });
       if (existingUser) {
@@ -44,27 +44,41 @@ exports.signup = [
       console.log("escapedPassword");
       console.log(escapedPassword);
 
-      try {
-        const hashedPassword = await bcrypt.hash(escapedPassword, 10);
-        console.log("hashedPassword");
-        console.log(hashedPassword);
-        const newUser = new User({
-          username: escapedUsername,
-          password: hashedPassword,
-        });
-        await newUser.save();
-        res.send({});
-        // next();
-      } catch (err) {
-        if (err) next(err);
-      }
+      bcrypt.hash(escapedPassword, 10, async (err, hashedPassword) => {
+        try {
+          console.log("hashedPassword");
+          console.log(hashedPassword);
+          const newUser = new User({
+            username: escapedUsername,
+            password: hashedPassword,
+          });
+          await newUser.save();
+          res.send({});
+        } catch (err) {
+          next(err);
+        }
+      });
+      // try {
+      //   const hashedPassword = await bcrypt.hash(escapedPassword, 10);
+      //   console.log("hashedPassword");
+      //   console.log(hashedPassword);
+      //   const newUser = new User({
+      //     username: escapedUsername,
+      //     password: hashedPassword,
+      //   });
+      //   await newUser.save();
+      //   res.send({});
+      //   // next();
+      // } catch (err) {
+      //   if (err) next(err);
+      // }
     }
   }),
 ];
 
 exports.login = [
   body("username").trim().escape(),
-  body("password").trim().escape(),
+  // body("password").trim().escape(),
 
   passport.authenticate("local"),
 

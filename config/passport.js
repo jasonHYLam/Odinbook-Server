@@ -8,17 +8,21 @@ function initializePassport(passport) {
       try {
         const user = await User.findOne({ username: username });
         if (!user) {
-          console.log("a");
+          console.log("no user");
           return done(null, false, { message: "No user" });
         }
+        console.log("user seems to exist");
 
         console.log("password");
         console.log(password);
-        console.log("user");
-        console.log(user);
+        console.log("user.password");
+        console.log(user.password);
         const match = await bcrypt.compare(password, user.password);
+        console.log("checking match");
+        console.log(match);
+
         if (!match) {
-          console.log("b");
+          console.log("incorrect password");
           return done(null, false, { message: "Incorrect password" });
         }
         console.log("all good");
