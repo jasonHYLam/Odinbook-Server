@@ -5,8 +5,8 @@ const authController = require("../controller/authController");
 router.post(
   "/signup",
   authController.allowLoginOrSignup,
-  authController.signup,
-  authController.login
+  authController.signup
+  // authController.login
 );
 router.post("/login", authController.allowLoginOrSignup, authController.login);
 router.delete("/logout", authController.isAuthenticated, authController.logout);

@@ -33,16 +33,25 @@ exports.signup = [
       console.log(errors);
       return res.status(400).send({ errors: errors.array() });
     } else {
+      const existingUser = await User.findOne({ username: escapedUsername });
+      if (existingUser) {
+        return res.status(400).send({ error: "User already exists" });
+      }
       escapedUsername = he.decode(req.body.username);
       escapedPassword = he.decode(req.body.username);
+      console.log("escapedPassword");
+      console.log(escapedPassword);
       try {
         const hashedPassword = await bcrypt.hash(escapedPassword, 10);
+        console.log("hashedPassword");
+        console.log(hashedPassword);
         const newUser = new User({
           username: escapedUsername,
           password: hashedPassword,
         });
         await newUser.save();
-        next();
+        res.send({});
+        // next();
       } catch (err) {
         if (err) next(err);
       }
