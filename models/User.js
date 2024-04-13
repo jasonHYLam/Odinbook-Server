@@ -14,6 +14,8 @@ const UserSchema = new Schema(
     profilePicURL: { type: String, default: "" },
     following: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
+    isGuest: { type: Boolean },
+    isAdmin: { type: Boolean },
   },
   opts
 );
