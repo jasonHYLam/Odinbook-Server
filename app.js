@@ -9,7 +9,6 @@ require("dotenv").config();
 require("./config/mongo");
 
 const authRouter = require("./routes/authRoutes");
-const indexRouter = require("./routes/index");
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const commentRouter = require("./routes/commentRouter");
