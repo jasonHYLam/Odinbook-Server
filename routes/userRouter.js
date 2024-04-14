@@ -1,10 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controller/userController");
+const { isAuthenticated } = require("../controller/authController");
 
-router.get("/get_logged_in_user", userController.getLoggedInUser);
-router.get("/view_personal_profile", userController.view_personal_profile);
-router.get("/:userID/profile", userController.view_profile);
+router.get(
+  "/get_logged_in_user",
+  isAuthenticated,
+  userController.getLoggedInUser
+);
+router.get(
+  "/view_personal_profile",
+  isAuthenticated,
+  userController.view_personal_profile
+);
+router.get("/:userID/profile", isAuthenticated, userController.view_profile);
 router.put("/change_username", userController.changeUsername);
 router.put("/change_password", userController.changePassword);
 router.put("/change_profile_pic", userController.changeProfilePic);
