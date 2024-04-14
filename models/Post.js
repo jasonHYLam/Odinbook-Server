@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
 
 const opts = {
   toObject: { virtuals: true },
@@ -22,6 +23,10 @@ const PostSchema = new Schema(
 
 PostSchema.virtual("likesCount").get(function () {
   return this.likedBy.length;
+});
+
+PostSchema.virtual("datePostedFormatted").get(function () {
+  return DateTime.fromJSDate(this.timeStamp).toFormat("T dd/LL/yy");
 });
 
 module.exports = mongoose.model("Post", PostSchema);
