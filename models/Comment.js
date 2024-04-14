@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
 
 const opts = {
   toObject: { virtuals: true },
@@ -19,5 +20,9 @@ const CommentSchema = new Schema(
   },
   opts
 );
+
+CommentSchema.virtual("dateCommentedFormatted").get(function () {
+  return DateTime.fromJSDate(this.dateCommented).toFormat("T dd/LL/yy");
+});
 
 module.exports = mongoose.model("Comment", CommentSchema);
