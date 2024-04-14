@@ -119,16 +119,10 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
   const { following } = await User.findById(req.user.id)
     .populate("following", "username profilePicURL")
     .exec();
-  // console.log("check followingList");
-  // console.log(following);
 
   res.status(201).send({ following });
 });
-// view feed
-// view particular post
-// view followers list
-// view folllowing list
-// follow account
+
 exports.followUser = asyncHandler(async (req, res, next) => {
   const { userID } = req.params;
 
@@ -163,7 +157,6 @@ exports.unfollowUser = asyncHandler(async (req, res, next) => {
 
   const loggedInUser = await User.findByIdAndUpdate(
     req.user.id,
-    // try and remove... maybe this is a sort. or maybe there's another mongoDB method
     { $pull: { following: userID } },
     { new: true }
   );
@@ -184,7 +177,6 @@ exports.searchUsers = [
     if (!errors.isEmpty()) {
       return res.status(400).end();
     } else {
-      // need to use regex here
       const searchQuery = he.decode(req.body.searchQuery);
       const users = await User.find({
         _id: { $ne: req.user._id },
