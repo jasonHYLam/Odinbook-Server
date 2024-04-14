@@ -58,27 +58,12 @@ exports.signup = [
           next(err);
         }
       });
-      // try {
-      //   const hashedPassword = await bcrypt.hash(escapedPassword, 10);
-      //   console.log("hashedPassword");
-      //   console.log(hashedPassword);
-      //   const newUser = new User({
-      //     username: escapedUsername,
-      //     password: hashedPassword,
-      //   });
-      //   await newUser.save();
-      //   res.send({});
-      //   // next();
-      // } catch (err) {
-      //   if (err) next(err);
-      // }
     }
   }),
 ];
 
 exports.login = [
   body("username").trim().escape(),
-  // body("password").trim().escape(),
 
   passport.authenticate("local"),
 
