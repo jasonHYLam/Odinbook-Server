@@ -26,7 +26,7 @@ PostSchema.virtual("likesCount").get(function () {
 });
 
 PostSchema.virtual("datePostedFormatted").get(function () {
-  return DateTime.fromJSDate(this.timeStamp).toFormat("T dd/LL/yy");
+  return DateTime.fromJSDate(this.datePosted).toFormat("T dd/LL/yy");
 });
 
 module.exports = mongoose.model("Post", PostSchema);
