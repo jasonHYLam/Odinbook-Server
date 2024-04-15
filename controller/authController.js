@@ -55,7 +55,7 @@ exports.signup = [
           await newUser.save();
           res.send({});
         } catch (err) {
-          res.send({ err });
+          res.status(400).send({ err });
         }
       });
     }
