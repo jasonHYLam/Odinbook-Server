@@ -4,7 +4,7 @@ const postController = require("../controller/postController");
 const { isAuthenticated } = require("../controller/authController");
 
 router.get("/all_posts", isAuthenticated, postController.getFeed);
-router.get("/liked_posts", postController.getLikedPosts);
+router.get("/liked_posts", isAuthenticated, postController.getLikedPosts);
 router.post("/create_post", postController.createPost);
 router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);
