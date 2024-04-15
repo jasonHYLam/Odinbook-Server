@@ -22,8 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.set("trust proxy", 1);
-
 app.use(
   cors({
     credentials: true,
@@ -31,6 +29,8 @@ app.use(
     origin: "https://tabasco.netlify.app",
   })
 );
+
+app.set("trust proxy", 1);
 
 app.use(
   session({
