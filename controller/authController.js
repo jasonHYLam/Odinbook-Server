@@ -65,7 +65,14 @@ exports.signup = [
 exports.login = [
   body("username").trim().escape(),
 
-  passport.authenticate("local"),
+  asyncHandler(async (req, res, next) => {
+    passport.authenticate("local", function (err, user) {
+      if (err) {
+        res.send({ err });
+      }
+    });
+  }),
+  // passport.authenticate("local"),
 
   asyncHandler(async (req, res, next) => {
     res.end();
