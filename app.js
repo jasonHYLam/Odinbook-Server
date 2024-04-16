@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const cors = require("cors");
 const initializePassport = require("./config/passport");
 const passport = require("passport");
@@ -37,6 +38,9 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+    }),
     cookie: {
       httpOnly: process.env.MODE === "prod",
       secure: process.env.MODE === "prod",
