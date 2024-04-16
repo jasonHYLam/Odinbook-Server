@@ -8,7 +8,11 @@ const Post = require("../models/Post");
 
 exports.testController = asyncHandler(async (req, res, next) => {
   const test = await User.find({ username: "Guest" });
-  res.send({ test });
+  if (test) {
+    res.send({ test });
+  } else if (!test) {
+    res.send({ message: "unsuccessful query" });
+  }
 });
 
 // view profile
