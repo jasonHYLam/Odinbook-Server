@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const { isAuthenticated } = require("../controller/authController");
 
+router.get("test");
 router.get(
   "/get_logged_in_user",
   isAuthenticated,
