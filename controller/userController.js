@@ -6,15 +6,6 @@ const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
-exports.testController = asyncHandler(async (req, res, next) => {
-  const test = await User.find({ username: "Guest" });
-  if (test) {
-    res.send({ test });
-  } else if (!test) {
-    res.send({ message: "unsuccessful query" });
-  }
-});
-
 // view profile
 exports.getLoggedInUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id, "-password")
