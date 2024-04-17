@@ -45,7 +45,6 @@ app.use(
       httpOnly: process.env.MODE === "prod",
       secure: process.env.MODE === "prod",
       sameSite: process.env.MODE === "prod" ? "none" : "lax",
-      partitioned: true,
     },
   })
 );

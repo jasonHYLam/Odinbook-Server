@@ -65,16 +65,22 @@ exports.signup = [
 exports.login = [
   body("username").trim().escape(),
 
-  // asyncHandler(async (req, res, next) => {
-  //   passport.authenticate("local", function (err, user) {
-  //     if (err) {
-  //       res.send({ err });
-  //     }
-  //   });
-  // }),
+  asyncHandler(async (req, res, next) => {
+    //   // passport.authenticate("local", function (err, user) {
+    //   //   if (err) {
+    //   //     res.send({ err });
+    //   //   }
+    //   // });
+    //   console.log(req.body);
+    console.log("checking req.user");
+    console.log(req.user);
+    next();
+  }),
   passport.authenticate("local"),
 
   asyncHandler(async (req, res, next) => {
+    console.log("checking req.user");
+    console.log(req.user);
     res.end();
   }),
 ];
@@ -88,6 +94,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
 });
 
 exports.isAuthenticated = (req, res, next) => {
+  console.log("checking isAuthenticated");
+  console.log(req.user);
   if (!req.user) return res.status(401).end();
   next();
 };
