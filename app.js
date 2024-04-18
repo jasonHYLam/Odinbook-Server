@@ -26,8 +26,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     credentials: true,
-    origin: process.env.FRONTEND_DOMAIN,
-    // origin: true,
+    // origin: process.env.FRONTEND_DOMAIN,
+    origin: true,
   })
 );
 
@@ -45,7 +45,7 @@ app.use(
       httpOnly: process.env.MODE === "prod",
       secure: process.env.MODE === "prod",
       sameSite: process.env.MODE === "prod" ? "none" : "lax",
-      partitioned: process.env.MODE === "prod",
+      // partitioned: process.env.MODE === "prod",
     },
   })
 );
