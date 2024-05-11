@@ -32,8 +32,6 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
     .sort({ datePosted: -1 })
     .exec();
 
-  console.log("checking allPosts");
-  console.log(allPosts);
   res.status(201).send({ allPosts });
 });
 
@@ -43,6 +41,14 @@ exports.getLikedPosts = asyncHandler(async (req, res, next) => {
     .sort({ datePosted: -1 })
     .exec();
   res.status(201).send({ likedPosts });
+});
+
+exports.getBookmarkedPosts = asyncHandler(async (req, res, next) => {
+  const bookmarkedPosts = await Post.find({ bookmarkedBy: req.user.id })
+    .populate("creator", "-password")
+    .sort({ datePosted: -1 })
+    .exec();
+  res.status(201).send({ bookmarkedPosts });
 });
 
 exports.createPost = [
