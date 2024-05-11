@@ -10,6 +10,7 @@ router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);
 router.put("/:postID/like", postController.likePost);
 router.put("/:postID/unlike", postController.unlikePost);
+router.put("/:postId/toggle_bookmark", postController.toggleBookmarkPost);
 router.delete("/:postID/delete", postController.deletePost);
 
 router.get("/:postID", isAuthenticated, postController.getPost);
