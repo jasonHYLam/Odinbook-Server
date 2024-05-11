@@ -5,6 +5,11 @@ const { isAuthenticated } = require("../controller/authController");
 
 router.get("/all_posts", isAuthenticated, postController.getFeed);
 router.get("/liked_posts", isAuthenticated, postController.getLikedPosts);
+router.get(
+  "/bookmarked_posts",
+  isAuthenticated,
+  postController.getBookmarkedPosts
+);
 router.post("/create_post", postController.createPost);
 router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);
