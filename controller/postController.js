@@ -31,11 +31,14 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
     .populate("creator", "-password")
     .sort({ datePosted: -1 })
     .exec();
+
+  console.log("checking allPosts");
+  console.log(allPosts);
   res.status(201).send({ allPosts });
 });
 
 exports.getLikedPosts = asyncHandler(async (req, res, next) => {
-  const likedPosts = await Post.find({ likedBy: { $in: req.user.id } })
+  const likedPosts = await Post.find({ likedBy: req.user.id })
     .populate("creator", "-password")
     .sort({ datePosted: -1 })
     .exec();
