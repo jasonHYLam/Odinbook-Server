@@ -165,3 +165,21 @@ exports.unlikePost = asyncHandler(async (req, res, next) => {
 
   res.status(201).send({ unlikedPost });
 });
+
+exports.toggleBookmarkPost = asyncHandler(async (req, res, next) => {
+  const { postID } = req.params;
+  if (!isValidObjectId(postID)) return res.status(400).end();
+
+  const matchingPost = await Post.findById(postID).exec();
+  if (!matchingPost) return res.status(400).end();
+
+  if (matchingPost.bookmarkedBy.includes(req.user._id)) {
+    matchingPost.bookmarkedBy = matchingPost.bookmarkedBy.filter(
+      (userId) => userId !== req.user._id
+    );
+  } else {
+    matchingPost.bookmarkedBy.push(req.user._id);
+  }
+  matchingPost.save();
+  res.status(201).send({ matchingPost });
+});
