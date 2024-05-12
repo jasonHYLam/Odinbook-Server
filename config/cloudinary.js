@@ -9,11 +9,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
+const cloudinaryStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: `odinbook/${process.env.MODE}`,
   },
 });
 
-module.exports = { storage };
+module.exports = { cloudinaryStorage };
