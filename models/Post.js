@@ -26,6 +26,10 @@ PostSchema.virtual("likesCount").get(function () {
   return this.likedBy.length;
 });
 
+PostSchema.virtual("bookmarksCount").get(function () {
+  return this.bookmarkedBy.length;
+});
+
 PostSchema.virtual("datePostedFormatted").get(function () {
   return DateTime.fromJSDate(this.datePosted).toFormat("T dd/LL/yy");
 });
