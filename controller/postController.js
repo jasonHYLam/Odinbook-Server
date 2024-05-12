@@ -7,6 +7,8 @@ const Comment = require("../models/Comment");
 const { upload } = require("../config/multer");
 const { isValidObjectId } = require("mongoose");
 
+const { createThumbnail } = require("../config/sharp");
+
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
 
@@ -196,4 +198,13 @@ exports.toggleBookmarkPost = asyncHandler(async (req, res, next) => {
 
   await matchingPost.save();
   res.status(201).send({ matchingPost });
+});
+
+const TEST_IMAGE_PATH = "../test/testConfig/testUploadImages/lapras.png";
+exports.testCreateThumbnail = asyncHandler(async (req, res, next) => {
+  console.log("checking req.file");
+  console.log(req.file);
+  createThumbnail(req.file);
+
+  res.json({ msg: "success?" });
 });
