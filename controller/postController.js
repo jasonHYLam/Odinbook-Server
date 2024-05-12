@@ -188,11 +188,12 @@ exports.toggleBookmarkPost = asyncHandler(async (req, res, next) => {
 
   if (matchingPost.bookmarkedBy.includes(req.user._id)) {
     matchingPost.bookmarkedBy = matchingPost.bookmarkedBy.filter(
-      (userId) => userId !== req.user._id
+      (userId) => !userId.equals(req.user._id)
     );
   } else {
     matchingPost.bookmarkedBy.push(req.user._id);
   }
-  matchingPost.save();
+
+  await matchingPost.save();
   res.status(201).send({ matchingPost });
 });
