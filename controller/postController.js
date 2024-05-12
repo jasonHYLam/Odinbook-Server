@@ -20,8 +20,11 @@ exports.getPost = asyncHandler(async (req, res, next) => {
   );
 
   const isLiked = post.likedBy.some((user) => user.id === req.user.id);
+  const isBookmarked = post.bookmarkedBy.some(
+    (user) => user.id === req.user.id
+  );
 
-  res.status(201).send({ post, comments, isLiked });
+  res.status(201).send({ post, comments, isLiked, isBookmarked });
 });
 
 exports.getFeed = asyncHandler(async (req, res, next) => {
