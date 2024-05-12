@@ -12,7 +12,8 @@ exports.getPost = asyncHandler(async (req, res, next) => {
 
   const post = await Post.findById(postID)
     .populate("creator", "username profilePicURL")
-    .populate("likedBy", "username profilePicURL")
+    .populate("likedBy", "id")
+    .populate("bookmarkedBy", "id")
     .exec();
   const comments = await Comment.find({ post: postID }).populate(
     "author",
