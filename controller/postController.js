@@ -7,7 +7,7 @@ const Comment = require("../models/Comment");
 const { upload, uploadOriginal } = require("../config/multer");
 const { isValidObjectId } = require("mongoose");
 
-const { createThumbnail } = require("../config/sharp");
+const { createThumbnail } = require("../helpers/createThumbnail");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
@@ -77,10 +77,14 @@ exports.createPost = [
     res.status(201).send({ newPost });
   }),
 ];
+/*
+This uploads the original file input, as well as compresses it using 
+sharp and creates a thumbnail and uploads it.
+ */
 
 exports.createPostWithImage = [
-  // upload.single("images"),
   uploadOriginal.single("images"),
+  createThumbnail,
   body("text").trim().isLength({ min: 1, max: 500 }).escape(),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -91,11 +95,13 @@ exports.createPostWithImage = [
   asyncHandler(async (req, res, next) => {
     const escapedText = he.decode(req.body.text);
     const imagePathURL = req.file.path;
+    const thumbnailImageURL = req.thumbnailURL;
 
     const newPost = new Post({
       text: escapedText,
       creator: req.user._id,
       imageURL: imagePathURL,
+      thumbnailImageURL: thumbnailImageURL,
       datePosted: new Date(),
     });
 
@@ -201,11 +207,10 @@ exports.toggleBookmarkPost = asyncHandler(async (req, res, next) => {
   res.status(201).send({ matchingPost });
 });
 
-const TEST_IMAGE_PATH = "../test/testConfig/testUploadImages/lapras.png";
-exports.testCreateThumbnail = asyncHandler(async (req, res, next) => {
-  console.log("checking req.file");
-  console.log(req.file);
-  createThumbnail(req.file);
-
-  res.json({ msg: "success?" });
-});
+exports.testCreateThumbnail = [
+  createThumbnail,
+  asyncHandler(async (req, res, next) => {
+    console.log(req.thumbnailURL);
+    res.end();
+  }),
+];
