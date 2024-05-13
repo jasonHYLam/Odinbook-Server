@@ -4,6 +4,6 @@ const { cloudinaryStorage } = require("./cloudinary");
 const memoryStorage = multer.memoryStorage();
 
 const upload = multer({ storage: memoryStorage });
-const uploadOriginal = multer({ storage: cloudinaryStorage });
+const uploadDirectlyToCloudinary = multer({ storage: cloudinaryStorage });
 
-module.exports = { upload, uploadOriginal };
+module.exports = { upload, uploadDirectlyToCloudinary };
