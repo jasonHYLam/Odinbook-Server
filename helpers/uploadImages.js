@@ -8,15 +8,21 @@ const { uploader } = cloudinary;
 
 const uploadOriginalImage = asyncHandler(async (req, res, next) => {
   uploadDirectlyToCloudinary.single("images");
-  next();
+  // next();
 });
 
 const uploadDuplicate = asyncHandler(async (req, res, next) => {
+  console.log(req.file);
   upload.single("images");
   console.log("checking req.file");
   console.log(req.file);
-  next();
+  // next();
 });
+
+const uploadFiles = (req, res, next) => {
+  uploadDirectlyToCloudinary.single("images")(req, res, next);
+  upload.single("images")(req, res, next);
+};
 
 const createThumbnailFromDuplicate = asyncHandler(async (req, res, next) => {
   const { originalname } = req.file;
@@ -35,5 +41,6 @@ const createThumbnailFromDuplicate = asyncHandler(async (req, res, next) => {
 module.exports = {
   uploadOriginalImage,
   uploadDuplicate,
+  uploadFiles,
   createThumbnailFromDuplicate,
 };
