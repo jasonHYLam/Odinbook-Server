@@ -11,7 +11,6 @@ router.get(
   postController.getBookmarkedPosts
 );
 
-router.post("/test_create_post", postController.testCreateThumbnail);
 router.post("/create_post", postController.createPost);
 router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);

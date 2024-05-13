@@ -4,14 +4,9 @@ const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
-const { upload, uploadDirectlyToCloudinary } = require("../config/multer");
 const { isValidObjectId } = require("mongoose");
 
-const { createThumbnail } = require("../helpers/createThumbnail");
-
 const {
-  uploadOriginalImage,
-  uploadDuplicate,
   uploadFiles,
   createThumbnailFromDuplicate,
 } = require("../helpers/uploadImages");
@@ -106,7 +101,6 @@ exports.createPostWithImage = [
     console.log("checking req.body");
     console.log(req.body.text);
     const text = req.body.text ? req.body.text[0] : "";
-    /* for some reason req.body.text is an array rather than a string */
     const escapedText = he.decode(text);
     const imagePathURL = req.file.path;
     const thumbnailImageURL = req.thumbnailURL;
@@ -220,11 +214,3 @@ exports.toggleBookmarkPost = asyncHandler(async (req, res, next) => {
   await matchingPost.save();
   res.status(201).send({ matchingPost });
 });
-
-exports.testCreateThumbnail = [
-  createThumbnail,
-  asyncHandler(async (req, res, next) => {
-    console.log(req.thumbnailURL);
-    res.end();
-  }),
-];

@@ -3,21 +3,7 @@ const sharp = require("sharp");
 const { upload, uploadDirectlyToCloudinary } = require("../config/multer");
 const asyncHandler = require("express-async-handler");
 const { cloudinary } = require("../config/cloudinary");
-
 const { uploader } = cloudinary;
-
-const uploadOriginalImage = asyncHandler(async (req, res, next) => {
-  uploadDirectlyToCloudinary.single("images");
-  // next();
-});
-
-const uploadDuplicate = asyncHandler(async (req, res, next) => {
-  console.log(req.file);
-  upload.single("images");
-  console.log("checking req.file");
-  console.log(req.file);
-  // next();
-});
 
 const uploadFiles = (req, res, next) => {
   uploadDirectlyToCloudinary.single("images")(req, res, next);
@@ -39,8 +25,6 @@ const createThumbnailFromDuplicate = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = {
-  uploadOriginalImage,
-  uploadDuplicate,
   uploadFiles,
   createThumbnailFromDuplicate,
 };
