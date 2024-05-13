@@ -4,10 +4,14 @@ const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
-const { upload, uploadOriginal } = require("../config/multer");
+// const { upload, uploadOriginal } = require("../config/multer");
 const { isValidObjectId } = require("mongoose");
 
-const { createThumbnail } = require("../helpers/createThumbnail");
+const {
+  uploadOriginalImage,
+  uploadDuplicate,
+  createThumbnailFromDuplicate,
+} = require("../helpers/uploadImages");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
@@ -83,8 +87,11 @@ sharp and creates a thumbnail and uploads it.
  */
 
 exports.createPostWithImage = [
-  uploadOriginal.single("images"),
-  createThumbnail,
+  // uploadOriginal.single("images"),
+  uploadOriginalImage,
+  uploadDuplicate,
+  createThumbnailFromDuplicate,
+
   body("text").trim().isLength({ min: 1, max: 500 }).escape(),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -207,10 +214,10 @@ exports.toggleBookmarkPost = asyncHandler(async (req, res, next) => {
   res.status(201).send({ matchingPost });
 });
 
-exports.testCreateThumbnail = [
-  createThumbnail,
-  asyncHandler(async (req, res, next) => {
-    console.log(req.thumbnailURL);
-    res.end();
-  }),
-];
+// exports.testCreateThumbnail = [
+//   createThumbnail,
+//   asyncHandler(async (req, res, next) => {
+//     console.log(req.thumbnailURL);
+//     res.end();
+//   }),
+// ];
