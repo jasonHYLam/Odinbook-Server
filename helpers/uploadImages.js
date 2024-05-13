@@ -1,10 +1,15 @@
 require("dotenv").config();
 const sharp = require("sharp");
-const { upload } = require("../config/multer");
+const { upload, uploadDirectlyToCloudinary } = require("../config/multer");
 const asyncHandler = require("express-async-handler");
 const { cloudinary } = require("../config/cloudinary");
 
 const { uploader } = cloudinary;
+
+const uploadOriginalImage = asyncHandler(async (req, res, next) => {
+  uploadDirectlyToCloudinary.single("images");
+  next();
+});
 
 const createThumbnail = [
   upload.single("images"),
