@@ -41,7 +41,7 @@ exports.getFeed = asyncHandler(async (req, res, next) => {
 });
 
 exports.getLikedPosts = asyncHandler(async (req, res, next) => {
-  const likedPosts = await Post.find({ likedBy: req.user.id })
+  const likedPosts = await Post.find({ likedBy: req.user.id }, "-imageURL")
     .populate("creator", "-password")
     .sort({ datePosted: -1 })
     .exec();
@@ -49,7 +49,10 @@ exports.getLikedPosts = asyncHandler(async (req, res, next) => {
 });
 
 exports.getBookmarkedPosts = asyncHandler(async (req, res, next) => {
-  const bookmarkedPosts = await Post.find({ bookmarkedBy: req.user.id })
+  const bookmarkedPosts = await Post.find(
+    { bookmarkedBy: req.user.id },
+    "-imageURL"
+  )
     .populate("creator", "-password")
     .sort({ datePosted: -1 })
     .exec();
