@@ -97,12 +97,16 @@ exports.createPostWithImage = [
   }),
 
   asyncHandler(async (req, res, next) => {
+    console.log("chjecking req.file");
+    console.log(req.file);
     console.log("did we make it? part 2");
     console.log("checking req.body");
     console.log(req.body.text);
     const text = req.body.text ? req.body.text[0] : "";
     const escapedText = he.decode(text);
     const imagePathURL = req.file.path;
+    console.log("checking imagePathURL");
+    console.log(imagePathURL);
     const thumbnailImageURL = req.thumbnailURL;
 
     const newPost = new Post({

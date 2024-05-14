@@ -10,6 +10,29 @@ const uploadFiles = (req, res, next) => {
   upload.single("images")(req, res, next);
 };
 
+const uploadFilesToCloudinary = asyncHandler(async (req, res, next) => {
+  const { originalname } = req.file;
+  const thumbnailName = `thumbnail-${originalname}`;
+
+  const duplicateBuffer = req.file.buffer;
+
+  const uploadOriginalResponse = await uploader.upload(originalname, {
+    folder: `odinbook/${process.env.MODE}`,
+  });
+  req.imageURL = uploadOriginalResponse.secure_url;
+
+  await sharp(duplicateBuffer)
+    .resize(300, 300, { fit: "cover" })
+    .toFormat("webp")
+    .toFile(thumbnailName);
+  const uploadDuplicateResponse = await uploader.upload(thumbnailName, {
+    folder: `odinbook/${process.env.MODE}/thumbnail`,
+  });
+  req.thumbnailURL = uploadDuplicateResponse.secure_url;
+
+  next();
+});
+
 const createThumbnailFromDuplicate = asyncHandler(async (req, res, next) => {
   const { originalname } = req.file;
   const thumbnailName = `thumbnail-${originalname}`;
