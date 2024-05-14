@@ -6,11 +6,6 @@ const asyncHandler = require("express-async-handler");
 const { cloudinary } = require("../config/cloudinary");
 const { uploader } = cloudinary;
 
-// const uploadFiles = (req, res, next) => {
-//   uploadDirectlyToCloudinary.single("images")(req, res, next);
-//   upload.single("images")(req, res, next);
-// };
-
 const uploadFilesToCloudinary = [
   upload.single("images"),
 
@@ -29,38 +24,17 @@ const uploadFilesToCloudinary = [
     });
     req.imageURL = uploadOriginalResponse.secure_url;
 
-    // console.log("chjecking call3");
-    // await sharp(duplicateBuffer)
-    //   .resize(300, 300, { fit: "cover" })
-    //   .toFormat("webp")
-    //   .toFile(thumbnailName);
-    // const uploadDuplicateResponse = await uploader.upload(thumbnailName, {
-    //   folder: `odinbook/${process.env.MODE}/thumbnail`,
-    // });
-    // req.thumbnailURL = uploadDuplicateResponse.secure_url;
+    await sharp(duplicateBuffer)
+      .resize(300, 300, { fit: "cover" })
+      .toFormat("webp")
+      .toFile(thumbnailName);
+    const uploadDuplicateResponse = await uploader.upload(thumbnailName, {
+      folder: `odinbook/${process.env.MODE}/thumbnail`,
+    });
+    req.thumbnailURL = uploadDuplicateResponse.secure_url;
 
-    // console.log("chjecking call4");
-    // next();
-    res.end();
+    next();
   }),
 ];
 
-const createThumbnailFromDuplicate = asyncHandler(async (req, res, next) => {
-  const { originalname } = req.file;
-  const thumbnailName = `thumbnail-${originalname}`;
-  await sharp(req.file.buffer)
-    .resize(300, 300, { fit: "cover" })
-    .toFormat("webp")
-    .toFile(thumbnailName);
-  const response = await uploader.upload(thumbnailName, {
-    folder: `odinbook/${process.env.MODE}/thumbnail`,
-  });
-  req.thumbnailURL = response.secure_url;
-  next();
-});
-
-module.exports = {
-  // uploadFiles,
-  createThumbnailFromDuplicate,
-  uploadFilesToCloudinary,
-};
+module.exports = { uploadFilesToCloudinary };

@@ -6,11 +6,7 @@ const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const { isValidObjectId } = require("mongoose");
 
-const {
-  // uploadFiles,
-  // createThumbnailFromDuplicate,
-  uploadFilesToCloudinary,
-} = require("../helpers/uploadImages");
+const { uploadFilesToCloudinary } = require("../helpers/uploadImages");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
   const { postID } = req.params;
@@ -114,8 +110,9 @@ exports.createPostWithImage = [
     const newPost = new Post({
       text: escapedText,
       creator: req.user._id,
-      imageURL: imagePathURL,
-      thumbnailImageURL: thumbnailImageURL,
+      // imageURL: imagePathURL,
+      imageURL: req.imageURL,
+      thumbnailImageURL: req.thumbnailURL,
       datePosted: new Date(),
     });
 
