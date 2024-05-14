@@ -26,11 +26,11 @@ const PostSchema = new Schema(
 );
 
 PostSchema.virtual("likesCount").get(function () {
-  return this.likedBy.length;
+  if (this.likedBy) return this.likedBy.length;
 });
 
 PostSchema.virtual("bookmarksCount").get(function () {
-  return this.bookmarkedBy.length;
+  if (this.bookmarkedBy) return this.bookmarkedBy.length;
 });
 
 PostSchema.virtual("datePostedFormatted").get(function () {

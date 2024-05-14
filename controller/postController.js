@@ -32,7 +32,7 @@ exports.getPost = asyncHandler(async (req, res, next) => {
 exports.getFeed = asyncHandler(async (req, res, next) => {
   const { following } = await User.findById(req.user.id).exec();
 
-  const allPosts = await Post.find({ creator: { $in: following } })
+  const allPosts = await Post.find({ creator: { $in: following } }, "-imageURL")
     .populate("creator", "-password")
     .sort({ datePosted: -1 })
     .exec();
