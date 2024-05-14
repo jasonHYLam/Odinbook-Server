@@ -76,15 +76,13 @@ exports.createPost = [
     res.status(201).send({ newPost });
   }),
 ];
+
 /*
 This uploads the original file input, as well as compresses it using 
 sharp and creates a thumbnail and uploads it.
  */
 
 exports.createPostWithImage = [
-  // uploadFiles,
-  // createThumbnailFromDuplicate,
-
   uploadFilesToCloudinary,
 
   body("text").trim().isLength({ min: 1, max: 500 }).escape(),
@@ -95,22 +93,12 @@ exports.createPostWithImage = [
   }),
 
   asyncHandler(async (req, res, next) => {
-    console.log("chjecking req.file");
-    console.log(req.file);
-    console.log("did we make it? part 2");
-    console.log("checking req.body");
-    console.log(req.body.text);
     const text = req.body.text ? req.body.text[0] : "";
     const escapedText = he.decode(text);
-    const imagePathURL = req.file.path;
-    console.log("checking imagePathURL");
-    console.log(imagePathURL);
-    const thumbnailImageURL = req.thumbnailURL;
 
     const newPost = new Post({
       text: escapedText,
       creator: req.user._id,
-      // imageURL: imagePathURL,
       imageURL: req.imageURL,
       thumbnailImageURL: req.thumbnailURL,
       datePosted: new Date(),

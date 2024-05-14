@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema(
   {
-    title: { type: String, maxLength: 100 },
+    title: { type: String, maxLength: 50 },
     description: { type: String, maxLength: 1000 },
     text: { type: String, required: true, maxLength: 1000 },
     creator: { type: Schema.Types.ObjectId, required: true, ref: "User" },
