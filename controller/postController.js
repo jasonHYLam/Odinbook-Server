@@ -96,7 +96,6 @@ sharp and creates a thumbnail and uploads it.
 exports.createPostWithImage = [
   uploadFilesToCloudinary,
 
-  // body("text").trim().isLength({ min: 1, max: 500 }).escape(),
   body("title").trim().isLength({ min: 1, max: 50 }).escape(),
   body("description").trim().isLength({ max: 500 }).escape(),
   asyncHandler(async (req, res, next) => {
