@@ -31,7 +31,8 @@ exports.getPost = asyncHandler(async (req, res, next) => {
 });
 
 exports.getAllTags = asyncHandler(async (req, res, next) => {
-  // const allTags = await T
+  const allTags = await Tag.find();
+  res.status(201).send({ allTags });
 });
 
 exports.getFeed = asyncHandler(async (req, res, next) => {
