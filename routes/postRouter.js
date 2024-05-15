@@ -12,6 +12,8 @@ router.get(
 );
 router.get("/all_tags", isAuthenticated, postController.getAllTags);
 
+router.post("/tag_test", postController.tagTest);
+
 router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);
 router.put("/:postID/like", postController.likePost);

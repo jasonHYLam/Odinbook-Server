@@ -70,11 +70,16 @@ This uploads the original file input, as well as compresses it using
 sharp and creates a thumbnail and uploads it.
  */
 
+exports.tagTest = asyncHandler(async (req, res, next) => {
+  console.log(req.body);
+});
+
 exports.createPostWithImage = [
   uploadFilesToCloudinary,
 
   body("title").trim().isLength({ min: 1, max: 50 }).escape(),
   body("description").trim().isLength({ max: 500 }).escape(),
+
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).end();
