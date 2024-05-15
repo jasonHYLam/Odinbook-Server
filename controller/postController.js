@@ -7,6 +7,8 @@ const Comment = require("../models/Comment");
 const Tag = require("../models/Tag");
 const { isValidObjectId } = require("mongoose");
 
+const { upload } = require("../config/multer");
+
 const { uploadFilesToCloudinary } = require("../helpers/uploadImages");
 
 exports.getPost = asyncHandler(async (req, res, next) => {
@@ -70,9 +72,14 @@ This uploads the original file input, as well as compresses it using
 sharp and creates a thumbnail and uploads it.
  */
 
-exports.tagTest = asyncHandler(async (req, res, next) => {
-  console.log(req.body);
-});
+exports.tagTest = [
+  upload.single("images"),
+
+  asyncHandler(async (req, res, next) => {
+    const tags = JSON.parse(req.body.tags);
+    res.end();
+  }),
+];
 
 exports.createPostWithImage = [
   uploadFilesToCloudinary,
