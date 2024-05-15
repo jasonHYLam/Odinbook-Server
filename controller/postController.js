@@ -76,7 +76,45 @@ exports.tagTest = [
   upload.single("images"),
 
   asyncHandler(async (req, res, next) => {
+    const post = await Post.findOne({});
+    console.log("post");
+    console.log(post);
+
     const tags = JSON.parse(req.body.tags);
+
+    const tagDocs = await Tag.find();
+    const tagNames = tagDocs.map((doc) => doc.name);
+
+    // console.log("checking tagNames");
+    // console.log(tagNames);
+
+    const existingTags = tags.filter((tag) => tagNames.includes(tag));
+    const nonexistingTags = tags.filter((tag) => !tagNames.includes(tag));
+
+    // console.log("checking existing and nonexisting tags");
+    // console.log(existingTags);
+    // console.log(nonexistingTags);
+
+    // // create nonexisting tags
+    const docsToCreate = nonexistingTags.map((tag) => ({
+      name: tag,
+      posts: [post._id],
+    }));
+    // console.log("checking docsToCreate");
+    // console.log(docsToCreate);
+    const createTagsResponse = await Tag.insertMany(docsToCreate);
+    // console.log("checking createResponse");
+    // console.log(createTagsResponse);
+    // // update existing tags
+    if (existingTags) {
+      const updateTagsResponse = await Tag.updateMany(
+        { name: { $in: existingTags } },
+        { $push: { posts: post._id } }
+      );
+      // console.log(`updateTagsResponse`);
+      // console.log(updateTagsResponse);
+    }
+
     res.end();
   }),
 ];
@@ -108,7 +146,30 @@ exports.createPostWithImage = [
       datePosted: new Date(),
     });
 
-    newPost.save();
+    await newPost.save();
+
+    const tags = JSON.parse(req.body.tags);
+
+    const tagDocs = await Tag.find();
+    const tagNames = tagDocs.map((doc) => doc.name);
+
+    const existingTags = tags.filter((tag) => tagNames.includes(tag));
+    const nonexistingTags = tags.filter((tag) => !tagNames.includes(tag));
+
+    // // create nonexisting tags
+    const docsToCreate = nonexistingTags.map((tag) => ({
+      name: tag,
+      posts: [newPost._id],
+    }));
+    const createTagsResponse = await Tag.insertMany(docsToCreate);
+    // // update existing tags
+    if (existingTags) {
+      const updateTagsResponse = await Tag.updateMany(
+        { name: { $in: existingTags } },
+        { $push: { posts: newPost._id } }
+      );
+    }
+
     res.status(201).send({ newPost });
   }),
 ];
