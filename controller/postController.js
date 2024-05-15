@@ -4,6 +4,7 @@ const he = require("he");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+const Tag = require("../models/Tag");
 const { isValidObjectId } = require("mongoose");
 
 const { uploadFilesToCloudinary } = require("../helpers/uploadImages");
@@ -27,6 +28,10 @@ exports.getPost = asyncHandler(async (req, res, next) => {
   );
 
   res.status(201).send({ post, comments, isLiked, isBookmarked });
+});
+
+exports.getAllTags = asyncHandler(async (req, res, next) => {
+  // const allTags = await T
 });
 
 exports.getFeed = asyncHandler(async (req, res, next) => {
