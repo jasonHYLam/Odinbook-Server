@@ -24,16 +24,21 @@ exports.getPost = asyncHandler(async (req, res, next) => {
     "username profilePicURL"
   );
 
+  const tags = await Tag.find({ posts: postID }, "-posts");
+  console.log("checking tags");
+  console.log(tags);
+
   const isLiked = post.likedBy.some((user) => user.id === req.user.id);
   const isBookmarked = post.bookmarkedBy.some(
     (user) => user.id === req.user.id
   );
 
-  res.status(201).send({ post, comments, isLiked, isBookmarked });
+  res.status(201).send({ post, comments, isLiked, isBookmarked, tags });
 });
 
 exports.getAllTags = asyncHandler(async (req, res, next) => {
-  const allTags = await Tag.find();
+  const allTagDocs = await Tag.find();
+  const allTags = allTagDocs.map((doc) => doc.name);
   res.status(201).send({ allTags });
 });
 
