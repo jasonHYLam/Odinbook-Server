@@ -59,35 +59,6 @@ exports.getBookmarkedPosts = asyncHandler(async (req, res, next) => {
   res.status(201).send({ bookmarkedPosts });
 });
 
-exports.createPost = [
-  // body("text").trim().isLength({ min: 1, max: 500 }).escape(),
-  body("title").trim().isLength({ min: 1, max: 50 }).escape(),
-  body("description").trim().isLength({ max: 500 }).escape(),
-  asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send(errors);
-    }
-
-    // const escapedText = he.decode(req.body.text);
-    const escapedTitle = req.body.title ? he.decode(req.body.title) : "";
-    const escapedDescription = req.body.description
-      ? he.decode(req.body.description)
-      : "";
-
-    const newPost = new Post({
-      // text: escapedText,
-      title: escapedTitle,
-      description: escapedDescription,
-      creator: req.user._id,
-      datePosted: new Date(),
-    });
-    await newPost.save();
-
-    res.status(201).send({ newPost });
-  }),
-];
-
 /*
 This uploads the original file input, as well as compresses it using 
 sharp and creates a thumbnail and uploads it.
@@ -105,15 +76,12 @@ exports.createPostWithImage = [
   }),
 
   asyncHandler(async (req, res, next) => {
-    // const text = req.body.text ? req.body.text[0] : "";
-    // const escapedText = he.decode(text);
     const escapedTitle = req.body.title ? he.decode(req.body.title) : "";
     const escapedDescription = req.body.description
       ? he.decode(req.body.description)
       : "";
 
     const newPost = new Post({
-      // text: escapedText,
       title: escapedTitle,
       description: escapedDescription,
       creator: req.user._id,
