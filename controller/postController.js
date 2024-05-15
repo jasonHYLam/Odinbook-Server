@@ -107,7 +107,7 @@ exports.createPostWithImage = [
 
   asyncHandler(async (req, res, next) => {
     // const text = req.body.text ? req.body.text[0] : "";
-    const escapedText = he.decode(text);
+    // const escapedText = he.decode(text);
     const escapedTitle = req.body.title ? he.decode(req.body.title) : "";
     const escapedDescription = req.body.description
       ? he.decode(req.body.description)
