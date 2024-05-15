@@ -10,6 +10,7 @@ router.get(
   isAuthenticated,
   postController.getBookmarkedPosts
 );
+router.get("/all_tags", isAuthenticated, postController.getAllTags);
 
 router.post("/create_post_with_image", postController.createPostWithImage);
 router.put("/:postID/edit", postController.editPost);
